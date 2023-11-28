@@ -1,10 +1,6 @@
-# Nom du projet
-
-Une courte description du projet.
-
 ## Présentation
 
-Ce projet consiste à développer une application mobile e-commerce qui localise les utilisateurs qui publient des articles. L'application permet aux utilisateurs de consulter le catalogue de produits "oversize", de rechercher et de filtrer des articles, d'ajouter des articles au panier, de procéder au paiement, et de gérer leur profil.
+Ce projet consiste à développer une application mobile e-commerce qui localise les utilisateurs qui publient des articles. L'application permet aux utilisateurs de consulter le catalogue de produits, de rechercher et de filtrer des articles, d'ajouter des articles au panier, de procéder au paiement, et de gérer leur profil.
 
 ## Fonctionnalités
 
