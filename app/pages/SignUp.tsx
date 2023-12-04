@@ -1,55 +1,50 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-
+import AppButton from '../components/AppButton'; // Assurez-vous d'importer AppButton
+ 
 interface User {
   name: string;
   email: string;
   password: string;
   address: string;
 }
-
-const SignInSchema = Yup.object().shape({
+ 
+const SignUpSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email address').required('Required'),
-  password: Yup.string().min(4, 'Password is too short - should be 4 chars minimum').required('Required'),
+  password: Yup.string()
+  .required('Required')
+  .min(8, 'Password is too short - should be 8 chars minimum.')
+  .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
+  .matches(/[A-Z]/, 'Password must contain at least one uppercase letter.')
+  .matches(/[a-z]/, 'Password must contain at least one lowercase letter.')
+  .matches(/[0-9]/, 'Password must contain at least one number.')
+  .matches(/[@$!%*#?&]/, 'Password must contain at least one special character.'),
   address: Yup.string().required('Required'),
 });
-
+ 
 const SignUp = () => {
   const navigation = useNavigation();
-
-  const users: User[] = [
-    { name: 'Achref', email: 'Achref@gmail.com', password: '1234', address: '123 Street' },
-    // Add more users as needed
-  ];
-
-  const handleGoBack = () => {
-    navigation.navigate('Welcome');
-  };
-
+ 
+  // La logique de gestion des utilisateurs et de navigation
   const handleSignUp = (values: User, { setSubmitting }: FormikHelpers<User>) => {
-    const user = users.find(u => u.email === values.email && u.password === values.password);
-
-    if (user) {
-      console.log('Sign Up successful. User:', user);
-      navigation.navigate('SignIn');
-    } else {
-      setSubmitting(false);
-    }
+    // Votre logique de traitement de l'inscription
+    setSubmitting(false);
+    navigation.navigate('SignIn');
   };
-
+ 
   return (
     <View style={styles.container}>
       <Text>Sign Up</Text>
       <Formik
         initialValues={{ name: '', email: '', password: '', address: '' }}
-        validationSchema={SignInSchema}
+        validationSchema={SignUpSchema}
         onSubmit={handleSignUp}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }: FormikProps<User>) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
           <>
             <TextInput
               placeholder="Name"
@@ -84,47 +79,48 @@ const SignUp = () => {
               style={styles.input}
             />
             {errors.address && touched.address && <Text style={styles.error}>{errors.address}</Text>}
-            <TouchableOpacity onPress={handleGoBack} style={styles.goBackButton}>
-              <Text style={styles.buttonText}>Go Back</Text>
-            </TouchableOpacity>
-            <Button title="Sign Up" onPress={handleSubmit} disabled={isSubmitting} />
+            <View style={styles.buttonContainer}>
+              <AppButton title="Sign Up" onPress={handleSubmit} disabled={isSubmitting} />
+            </View>
           </>
         )}
       </Formik>
     </View>
   );
 };
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginBottom: 10,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    marginBottom: 15,
     fontSize: 16,
+    width: '100%',
   },
   error: {
     color: 'red',
+    marginBottom: 10,
   },
-  goBackButton: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+  buttonContainer: {
+    marginTop: 20,
+    width: '100%',
   },
 });
-
+ 
 export default SignUp;
