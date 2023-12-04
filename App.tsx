@@ -7,7 +7,6 @@ import { AuthProvider, useAuth } from './app/pages/AuthContext';
 import WelcomeScreen from './app/screens/WelcomeScreen';
 import SignIn from './app/pages/SignIn';
 import SignUp from './app/pages/SignUp';
-import Profile from './app/pages/Profile';
 import Home from './app/pages/Home';
 import PostScreen from './app/pages/PostScreen';
 import AccountScreen from './app/pages/AccountScreen';
@@ -76,3 +75,16 @@ function AppNavigator() {
       )}
     </Stack.Navigator>
   );
+}
+ 
+const App = () => {
+  return (
+    <AuthProvider>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+    </AuthProvider>
+  );
+};
+ 
+export default App;
