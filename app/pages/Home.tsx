@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { View, Text, FlatList, StyleSheet, Image,TouchableOpacity } from 'react-native';
+import { useRoute, RouteProp,useNavigation } from '@react-navigation/native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from '@firebase/firestore';
-import { firebaseConfig } from '../config/config';
+import { firebaseCo$nfig } from '../config/config';
 import colors from '../config/colors'; 
 
 const app = initializeApp(firebaseConfig);
@@ -20,6 +20,7 @@ type HomeScreenRouteProp = RouteProp<{ Home: { newProduct: Product } }, 'Home'>;
  
 const Home = () => {
   const route = useRoute<HomeScreenRouteProp>();
+  const navigation = useNavigation();
   const { newProduct } = route.params as { newProduct?: Product } || {};
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -40,29 +41,30 @@ const Home = () => {
     fetchProducts();
   }, [newProduct]);
  
+  const navigateToPostScreenDetails = (product: Product) => {
+    navigation.navigate('ScreenProductDetails', { product });
+  };
+
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.heading}>Bienvenue sur la page d'accueil</Text> */}
       <FlatList
         data={products}
         keyExtractor={(item) => item.title}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Image source={{ uri: item.imageUri }} style={styles.image} />
-            <View style={styles.detailsContainer}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.description}>{item.description}</Text>
+          <TouchableOpacity onPress={() => navigateToPostScreenDetails(item)}>
+            <View style={styles.card}>
+              <Image source={{ uri: item.imageUri }} style={styles.image} />
+              <View style={styles.detailsContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.description}>{item.description}</Text>
+              </View>
             </View>
-            {/* <View style={styles.publisherSection}>
-              <Text style={styles.publisherText}>{`Published by: ${item.publisher}`}</Text>
-            </View> */}
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
   );
 };
- 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -70,8 +72,8 @@ const styles = StyleSheet.create({
   },
   card: {
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    overflow: 'hidden',
+    borderTopRightRadius: 10, 
+    overflow: 'hidden', 
     borderRadius: 15,
     backgroundColor: colors.white,
     marginBottom: 20,
@@ -81,8 +83,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 200,
-    resizeMode: 'cover',
-    borderTopLeftRadius: 10,
+    resizeMode: 'cover', 
+    borderTopLeftRadius: 10, 
     borderTopRightRadius: 10,
   },
   title: {
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 7,
   },
   description: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: 'bold',
     color:colors.secondary,
   },
@@ -106,5 +108,4 @@ const styles = StyleSheet.create({
     padding: 20,
   },  
 });
- 
 export default Home;

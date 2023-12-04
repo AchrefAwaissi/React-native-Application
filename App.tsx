@@ -10,7 +10,7 @@ import SignUp from './app/pages/SignUp';
 import Home from './app/pages/Home';
 import PostScreen from './app/pages/PostScreen';
 import AccountScreen from './app/pages/AccountScreen';
- 
+ import ScreenProductDetails from './app/pages/ScreenProductDetails';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
  
@@ -71,6 +71,8 @@ function AppNavigator() {
       ) : (
         <>
           <Stack.Screen name="ProfileTabs" component={ProfileTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="ScreenProductDetails" component={ScreenProductDetails} />
+      
         </>
       )}
     </Stack.Navigator>
