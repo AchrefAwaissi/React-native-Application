@@ -1,9 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import AppButton from '../components/AppButton'; // Assurez-vous d'importer AppButton
+import AppButton from '../components/AppButton';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc } from '@firebase/firestore';
+import { firebaseConfig } from '../config/config';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
  
 interface User {
   name: string;
@@ -28,12 +32,54 @@ const SignUpSchema = Yup.object().shape({
  
 const SignUp = () => {
   const navigation = useNavigation();
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
  
   // La logique de gestion des utilisateurs et de navigation
   const handleSignUp = (values: User, { setSubmitting }: FormikHelpers<User>) => {
     // Votre logique de traitement de l'inscription
     setSubmitting(false);
-    navigation.navigate('SignIn');
+    // create a user with email and password using Firebase
+    createUserWithEmailAndPassword(auth, values.email, values.password)
+      .then((userCredential) => {
+        // user created successfully
+        const user = userCredential.user;
+        console.log('User signed up: ', user);
+        // show an alert with the user object
+        Alert.alert('Success', 'Utilisateur créé avec succès');
+         // navigate to the Sign In page
+        navigation.navigate('SignIn');
+      })
+      .catch((error) => {
+        // user creation failed
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Error signing up: ', errorCode, errorMessage);
+        // show an alert with the error message
+        Alert.alert('Error', errorMessage);
+      });
+
+      addDoc(collection(db, 'Utilisateurs'), {
+        email: values.email,
+        password: values.password,
+        adresse: values.address,
+        name: values.name,
+      })
+        .then((docRef) => {
+          // Document added successfully
+          const docId = docRef.id;
+          // ...
+        })
+        .catch((error) => {
+          // user creation failed
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Error adding doc: ', errorCode, errorMessage);
+        // show an alert with the error message
+        Alert.alert('Error', errorMessage);
+        });
+     
   };
  
   return (

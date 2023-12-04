@@ -1,25 +1,53 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Alert } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from './AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from '@firebase/firestore';
+import { firebaseConfig } from '../config/config';
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import AppButton from '../components/AppButton'; 
  
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required'),
 });
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
 const SignIn = () => {
   const { signIn } = useAuth();
   const navigation = useNavigation();
  
   const handleSignIn = (values, { setSubmitting }) => {
     console.log('Credentials:', values);
-    signIn();
     setSubmitting(false);
+    signInWithEmailAndPassword(auth, values.email, values.password)
+      .then((userCredential) => {
+        // user created successfully
+        const user = userCredential.user;
+        console.log('User signed in: ', user);
+      
+        Alert.alert('Success' , 'Utilisateur connecté');
+        signIn();
+        navigation.navigate('PostScreen');
+        
+      })
+      .catch((error) => {
+        // user creation failed
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Error signing in: ', errorCode, errorMessage);
+        console.error('Erreur lors de la récupération des utilisateurs', error);
+        // show an alert with the error message
+        Alert.alert('Error', errorMessage);
+      });
     // navigation.navigate('Profile');
-    navigation.navigate('PostScreen');
+    
   };
  
   return (
