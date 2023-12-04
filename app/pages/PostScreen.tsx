@@ -3,28 +3,28 @@ import { View, Text, Button, StyleSheet, TextInput, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
-
-const Profile = () => {
+ 
+const PostScreen = () => {
   const navigation = useNavigation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-
+ 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
-
+ 
   const handleChooseImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
     });
-
+ 
     if (!result.canceled) {
       const selectedImage = result.assets[0];
       setImage(selectedImage.uri);
@@ -32,14 +32,14 @@ const Profile = () => {
       alert("Vous n'avez pas sélectionné d'image.");
     }
   };
-
+ 
   const handleTakePhoto = async () => {
     if (hasPermission) {
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         quality: 1,
       });
-
+ 
       if (!result.canceled) {
         const takenImage = result.assets[0];
         setImage(takenImage.uri);
@@ -48,12 +48,12 @@ const Profile = () => {
       alert("Permission to use camera denied");
     }
   };
-
+ 
   const handlePublish = () => {
     const newProduct = { title, description, imageUri: image };
     navigation.navigate('Home', { newProduct });
   };
-
+ 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Publier un produit</Text>
@@ -76,7 +76,7 @@ const Profile = () => {
     </View>
   );
 };
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-
-export default Profile;
-
+ 
+export default PostScreen;
+ 

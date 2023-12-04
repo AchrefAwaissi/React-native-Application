@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useAuth } from './AuthContext'; // Assurez-vous d'importer depuis le bon chemin
+import { useAuth } from './AuthContext';
 import { useNavigation } from '@react-navigation/native'; // Importer useNavigation
 
 
@@ -17,11 +17,11 @@ const SignIn = () => {
   const navigation = useNavigation(); // Utiliser useNavigation
 
   const handleSignIn = (values, { setSubmitting }) => {
-    // Implémentez votre logique de vérification d'identifiants ici
+   
     console.log('Credentials:', values);
-    signIn(); // Appel de la fonction de connexion du contexte
+    signIn();
     setSubmitting(false);
-    navigation.navigate('Profile'); 
+    navigation.navigate('PostScreen'); 
   };
   return (
     <View style={styles.container}>
