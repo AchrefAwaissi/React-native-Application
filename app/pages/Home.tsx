@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
-import colors from '../config/colors';
- 
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs } from '@firebase/firestore';
+import { firebaseConfig } from '../config/config';
+import colors from '../config/colors'; 
+
+const app = initializeApp(firebaseConfig);
+const firestore = getFirestore(app);
+
 interface Product {
   title: string;
   description: string;
@@ -15,7 +21,24 @@ type HomeScreenRouteProp = RouteProp<{ Home: { newProduct: Product } }, 'Home'>;
 const Home = () => {
   const route = useRoute<HomeScreenRouteProp>();
   const { newProduct } = route.params as { newProduct?: Product } || {};
-  const products = newProduct ? [newProduct] : [];
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      // Assuming 'products' is the name of your Firestore collection
+      const querySnapshot = await getDocs(collection(firestore,'products'));
+
+      const productsData: Product[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as Product;
+        productsData.push(data);
+      });
+
+      setProducts(productsData);
+    };
+
+    fetchProducts();
+  }, [newProduct]);
  
   return (
     <View style={styles.container}>

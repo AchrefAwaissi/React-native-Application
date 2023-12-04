@@ -48,7 +48,7 @@ const SignUp = () => {
         console.log('User signed up: ', user);
         // show an alert with the user object
         Alert.alert('Success', 'Utilisateur créé avec succès');
-         // navigate to the Sign In page
+        // navigate to the Sign In page
         navigation.navigate('SignIn');
       })
       .catch((error) => {

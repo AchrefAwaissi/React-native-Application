@@ -3,6 +3,12 @@ import { View, Text, Button, StyleSheet, TextInput, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc } from '@firebase/firestore';
+import { firebaseConfig } from '../config/config';
+
+const app = initializeApp(firebaseConfig);
+const firestore = getFirestore(app);
  
 const PostScreen = () => {
   const navigation = useNavigation();
@@ -49,9 +55,18 @@ const PostScreen = () => {
     }
   };
  
-  const handlePublish = () => {
-    const newProduct = { title, description, imageUri: image };
-    navigation.navigate('Home', { newProduct });
+  const handlePublish = async () => {
+    try {
+      const newProduct = { title, description, imageUri: image };
+  
+      // Add a document to the "products" collection
+      const docRef = await addDoc(collection(firestore, 'products'), newProduct);
+  
+      console.log('Document added with ID: ', docRef.id);
+      navigation.navigate('Home', { newProduct });
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
   };
  
   return (
