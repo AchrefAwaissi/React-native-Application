@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from './AuthContext';
 import { useNavigation } from '@react-navigation/native';
-import AppButton from '../components/AppButton'; // Assurez-vous d'importer AppButton
+import AppButton from '../components/AppButton'; 
  
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
