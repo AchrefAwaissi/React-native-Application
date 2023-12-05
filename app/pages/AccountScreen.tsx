@@ -1,109 +1,107 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, where, query } from '@firebase/firestore';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { firebaseConfig } from '../config/config';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'expo-camera';
 
-interface UserData {
-  nom: string;
-  prenom: string;
-  email: string;
-  adresse: string;
-}
-
-const FieldItem = ({ label, value }: { label: string; value: string }) => (
-  <View style={styles.fieldContainer}>
-    <Text style={styles.label}>{label}</Text>
-    <Text style={styles.value}>{value}</Text>
-  </View>
-);
-
-export default function AccountScreen() {
-  const navigation = useNavigation();
-  const [userData, setUserData] = useState<UserData | null>(null);
+const PostScreen = () => {
+  const [image, setImage] = useState('');
+  const [hasPermission, setHasPermission] = useState(null);
 
   useEffect(() => {
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth();
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const usersRef = collection(db, 'Utilisateurs');
-        const userQuery = query(usersRef, where('email', '==', user.email));
-
-        getDocs(userQuery)
-          .then((querySnapshot) => {
-            const data: UserData | null = querySnapshot.empty
-              ? null
-              : (querySnapshot.docs[0].data() as UserData);
-            setUserData(data);
-          })
-          .catch((error) => {
-            console.error('Error fetching data from Firebase:', error);
-          });
-      } else {
-        setUserData(null);
-      }
-    });
-
-    return () => unsubscribe();
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
   }, []);
 
-  const handleSignOut = async () => {
-    const auth = getAuth();
+  const handleChooseImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
 
-    try {
-      await signOut(auth);
-      // Navigate to WelcomeScreen after signing out
-      navigation.navigate('Home');
-    } catch (error) {
-      console.error('Error signing out:', error);
+    if (!result.cancelled) {
+      const selectedImage = result.uri;
+      setImage(selectedImage);
+    } else {
+      alert("Vous n'avez pas sélectionné d'image.");
+    }
+  };
+
+  const handleTakePhoto = async () => {
+    if (hasPermission) {
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        const takenImage = result.uri;
+        setImage(takenImage);
+      }
+    } else {
+      alert("Permission to use camera denied");
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>User Information</Text>
-      {userData && (
-        <FlatList
-          data={[
-            { label: 'Nom', value: userData.nom },
-            { label: 'Prénom', value: userData.prenom },
-            { label: 'Email', value: userData.email },
-            { label: 'Adresse', value: userData.adresse },
-          ]}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => <FieldItem label={item.label} value={item.value} />}
-        />
-      )}
-      <Button title="Sign Out" onPress={handleSignOut} />
+      <View style={styles.profileContainer}>
+        <TouchableOpacity onPress={handleChooseImage} style={styles.profileImageContainer}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.profileImage} />
+          ) : (
+            <Text style={styles.profileImagePlaceholder}>Select Image</Text>
+          )}
+        </TouchableOpacity>
+        <Text style={styles.userName}>John Doe</Text>
+        <Text style={styles.userInfo}>Email: john.doe@example.com</Text>
+        <Text style={styles.userInfo}>Address: 123 Main Street</Text>
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    paddingTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  profileContainer: {
+    alignItems: 'center',
     marginBottom: 20,
   },
-  fieldContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
+  profileImageContainer: {
+    borderRadius: 100, // pour obtenir une forme de cercle
+    overflow: 'hidden',
+    borderColor: 'black',
+    borderWidth: 2,
+    width: 120,
+    height: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  label: {
-    fontWeight: 'bold', 
-    marginRight: 10,
+  profileImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 100,
   },
-  value: {},
+  profileImagePlaceholder: {
+    fontSize: 16,
+    color: 'gray',
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  userInfo: {
+    fontSize: 16,
+    marginTop: 5,
+  },
 });
+
+export default PostScreen;
+ 
