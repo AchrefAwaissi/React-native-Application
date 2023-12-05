@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, Image,TouchableOpacity } from 'react-
 import { useRoute, RouteProp,useNavigation } from '@react-navigation/native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from '@firebase/firestore';
-import { firebaseCo$nfig } from '../config/config';
+import { firebaseConfig } from '../config/config';
 import colors from '../config/colors'; 
 
 const app = initializeApp(firebaseConfig);
