@@ -5,7 +5,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, where, query } from '@firebase/firestore';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { firebaseConfig } from '../config/config';
-
+import ProfileScreen from './ProfileScreen';
 interface UserData {
   nom: string;
   prenom: string;
@@ -88,6 +88,7 @@ export default function AccountScreen() {
         </View>
       )}
       <Button title="Sign Out" onPress={handleSignOut} />
+      <ProfileScreen></ProfileScreen>
     </View>
   );
 }
