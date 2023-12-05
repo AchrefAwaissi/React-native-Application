@@ -28,7 +28,7 @@ const SignIn = () => {
     setSubmitting(false);
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
-        // user created successfully
+      
         const user = userCredential.user;
         console.log('User signed in: ', user);
       
@@ -38,16 +38,14 @@ const SignIn = () => {
         
       })
       .catch((error) => {
-        // user creation failed
+      
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('Error signing in: ', errorCode, errorMessage);
         console.error('Erreur lors de la récupération des utilisateurs', error);
-        // show an alert with the error message
         Alert.alert('Error', errorMessage);
       });
-    // navigation.navigate('Profile');
-    
+ 
   };
  
   return (
@@ -108,13 +106,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     fontSize: 16,
-    width: '90%', // Modifié pour occuper 90% de la largeur
-    alignSelf: 'center', // Centrer le TextInput
+    width: '90%', 
+    alignSelf: 'center',  
   },
   error: {
     color: 'red',
   },
-  // Les styles pour goBackButton et buttonText peuvent être supprimés s'ils ne sont pas utilisés
-});
+ });
  
 export default SignIn;
