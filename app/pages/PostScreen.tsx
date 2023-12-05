@@ -4,11 +4,25 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc } from '@firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc} from '@firebase/firestore';
 import { firebaseConfig } from '../config/config';
+import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+const auth = getAuth();
+const storage = getStorage(app);
+
+const fetchProducts = async () => {
+  const querySnapshot = await getDocs(collection(firestore, 'products'));
+  const products: { id: string; }[] = [];
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    products.push({ ...data, id: doc.id });
+  });
+  return products;
+};
  
 const PostScreen = () => {
   const navigation = useNavigation();
@@ -39,7 +53,7 @@ const PostScreen = () => {
     }
   };
  
-  const handleTakePhoto = async () => {
+  /* const handleTakePhoto = async () => {
     if (hasPermission) {
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
@@ -53,21 +67,35 @@ const PostScreen = () => {
     } else {
       alert("Permission to use camera denied");
     }
-  };
+  }; */
+  
  
   const handlePublish = async () => {
     try {
-      const newProduct = { title, description, imageUri: image };
-  
+      const newProduct = { title, description };
+      
       // Add a document to the "products" collection
       const docRef = await addDoc(collection(firestore, 'products'), newProduct);
-  
       console.log('Document added with ID: ', docRef.id);
+  
+      // Upload image to Firebase Storage
+      const imageRef = ref(storage, `product_images/${docRef.id}`);
+      await uploadBytes(imageRef, await fetch(image).then((res) => res.blob()));
+  
+      // Get download URL
+      const imageUrl = await getDownloadURL(imageRef);
+  
+      // Update the product document with the image URL
+      await updateDoc(doc(firestore, 'products', docRef.id), {
+        imageUri: imageUrl,
+      });
+  
       navigation.navigate('Home', { newProduct });
     } catch (error) {
       console.error('Error adding document: ', error);
     }
   };
+  
  
   return (
     <View style={styles.container}>
@@ -85,7 +113,7 @@ const PostScreen = () => {
         style={styles.input}
       />
       <Button title="Choisir une image" onPress={handleChooseImage} />
-      <Button title="Prendre une photo" onPress={handleTakePhoto} />
+      {/* <Button title="Prendre une photo" onPress={handleTakePhoto} /> */}
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       <Button title="Publier" onPress={handlePublish} />
     </View>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, where, query, updateDoc, doc } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, where, query } from '@firebase/firestore';
 import { getAuth, onAuthStateChanged, signOut, updateProfile } from 'firebase/auth';
 import { firebaseConfig } from '../config/config';
 import ProfileScreen from './ProfileScreen';
@@ -66,7 +66,7 @@ export default function AccountScreen() {
     const auth = getAuth();
 
     try {
-      await signOut(auth);
+      signOut(auth);
 
     } catch (error) {
       console.error('Error signing out:', error);
