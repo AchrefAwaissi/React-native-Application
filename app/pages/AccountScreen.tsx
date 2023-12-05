@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, DocumentData, where, query } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, where, query } from '@firebase/firestore';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { firebaseConfig } from '../config/config';
 
