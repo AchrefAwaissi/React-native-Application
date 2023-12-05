@@ -84,7 +84,7 @@ const SignUp = () => {
  
   return (
     <View style={styles.container}>
-      <Text>Sign Up</Text>
+      <Text style={styles.subtitle}>Sign Up</Text>
       <Formik
         initialValues={{ name: '', email: '', password: '', address: '' }}
         validationSchema={SignUpSchema}
@@ -106,6 +106,9 @@ const SignUp = () => {
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               style={styles.input}
+              keyboardType="email-address"
+              inputMode='email'
+              autoCapitalize="none"
             />
             {errors.email && touched.email && <Text style={styles.error}>{errors.email}</Text>}
             <TextInput
@@ -148,6 +151,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#333',
+  },
+  subtitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
   },
   input: {
     height: 50,

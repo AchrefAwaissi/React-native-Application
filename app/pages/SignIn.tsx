@@ -65,6 +65,9 @@ const SignIn = () => {
               onBlur={handleBlur('email')}
               value={values.email}
               style={styles.input}
+              keyboardType="email-address"
+              inputMode='email'
+              autoCapitalize="none"
             />
             {touched.email && errors.email && <Text style={styles.error}>{errors.email}</Text>}
             <TextInput
