@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Table, Row, Rows } from 'react-native-table-component';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, where, query } from '@firebase/firestore';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -13,6 +12,13 @@ interface UserData {
   email: string;
   adresse: string;
 }
+
+const FieldItem = ({ label, value }: { label: string; value: string }) => (
+  <View style={styles.fieldContainer}>
+    <Text style={styles.label}>{label}</Text>
+    <Text style={styles.value}>{value}</Text>
+  </View>
+);
 
 export default function AccountScreen() {
   const navigation = useNavigation();
@@ -62,18 +68,16 @@ export default function AccountScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>User Information</Text>
       {userData && (
-        <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
-          <Row data={['Field', 'Value']} style={styles.head} textStyle={styles.text} />
-          <Rows
-            data={[
-              ['Nom', userData.nom],
-              ['Prénom', userData.prenom],
-              ['Email', userData.email],
-              ['Adresse', userData.adresse],
-            ]}
-            textStyle={styles.text}
-          />
-        </Table>
+        <FlatList
+          data={[
+            { label: 'Nom', value: userData.nom },
+            { label: 'Prénom', value: userData.prenom },
+            { label: 'Email', value: userData.email },
+            { label: 'Adresse', value: userData.adresse },
+          ]}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => <FieldItem label={item.label} value={item.value} />}
+        />
       )}
       <Button title="Sign Out" onPress={handleSignOut} />
     </View>
@@ -81,18 +85,25 @@ export default function AccountScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    padding: 16, 
-    paddingTop: 30, 
-    backgroundColor: '#fff' },
-  title: { 
-    fontSize: 20, 
+  container: {
+    flex: 1,
+    padding: 16,
+    paddingTop: 30,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  fieldContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  label: {
     fontWeight: 'bold', 
-    marginBottom: 20 },
-  head: { 
-    height: 40, 
-    backgroundColor: '#f1f8ff' },
-  text: { 
-    margin: 6 },
+    marginRight: 10,
+  },
+  value: {},
 });
