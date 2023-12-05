@@ -72,7 +72,6 @@ export default function AccountScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>User Information</Text>
       {userData && (
         <View style={styles.profileContainer}>
           <TouchableOpacity onPress={handleChooseImage} style={styles.profileImageContainer}>
