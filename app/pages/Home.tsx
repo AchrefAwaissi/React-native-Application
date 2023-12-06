@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, Image,TouchableOpacity } from 'react-native';
-import { useRoute, RouteProp,useNavigation } from '@react-navigation/native';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs } from '@firebase/firestore';
-import { firebaseConfig } from '../config/config';
-import colors from '../config/colors'; 
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "@firebase/firestore";
+import { firebaseConfig } from "../config/config";
+import colors from "../config/colors";
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -15,19 +22,19 @@ interface Product {
   imageUri: string;
   publisher: string;
 }
- 
-type HomeScreenRouteProp = RouteProp<{ Home: { newProduct: Product } }, 'Home'>;
- 
+
+type HomeScreenRouteProp = RouteProp<{ Home: { newProduct: Product } }, "Home">;
+
 const Home = () => {
   const route = useRoute<HomeScreenRouteProp>();
   const navigation = useNavigation();
-  const { newProduct } = route.params as { newProduct?: Product } || {};
+  const { newProduct } = (route.params as { newProduct?: Product }) || {};
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       // Assuming 'products' is the name of your Firestore collection
-      const querySnapshot = await getDocs(collection(firestore,'products'));
+      const querySnapshot = await getDocs(collection(firestore, "products"));
 
       const productsData: Product[] = [];
       querySnapshot.forEach((doc) => {
@@ -40,9 +47,9 @@ const Home = () => {
 
     fetchProducts();
   }, [newProduct]);
- 
+
   const navigateToPostScreenDetails = (product: Product) => {
-    navigation.navigate('ScreenProductDetails', { product });
+    navigation.navigate("ScreenProductDetails", { product });
   };
 
   return (
@@ -72,40 +79,40 @@ const styles = StyleSheet.create({
   },
   card: {
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10, 
-    overflow: 'hidden', 
+    borderTopRightRadius: 10,
+    overflow: "hidden",
     borderRadius: 15,
     backgroundColor: colors.white,
     marginBottom: 20,
-    borderColor:'gray',
-    borderWidth:0.4,
+    borderColor: "gray",
+    borderWidth: 0.4,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 200,
-    resizeMode: 'cover', 
-    borderTopLeftRadius: 10, 
+    resizeMode: "cover",
+    borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 7,
   },
   description: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color:colors.secondary,
+    fontWeight: "bold",
+    color: colors.secondary,
   },
   publisherSection: {
     marginTop: 10,
   },
   publisherText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   detailsContainer: {
     padding: 20,
-  },  
+  },
 });
 export default Home;

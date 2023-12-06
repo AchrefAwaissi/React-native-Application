@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
-import MapView, { Circle } from 'react-native-maps';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDoc, doc } from '@firebase/firestore';
-import { firebaseConfig } from '../config/config';
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, SafeAreaView } from "react-native";
+import MapView, { Circle } from "react-native-maps";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDoc, doc } from "@firebase/firestore";
+import { firebaseConfig } from "../config/config";
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -23,27 +23,27 @@ const LocMap = () => {
     // Replace the following code with your Firebase logic to fetch product coordinates
     const fetchProductCoordsFromFirebase = async () => {
       try {
-        const productId = 'DyAgVniZenCWHt6ZKlc4'
-        const productDoc = await getDoc(doc(collection(firestore, 'products'), productId))
+        const productId = "DyAgVniZenCWHt6ZKlc4";
+        const productDoc = await getDoc(
+          doc(collection(firestore, "products"), productId)
+        );
         const productData = productDoc.data();
 
-        console.log('Product Data:', productData);
-        
+        console.log("Product Data:", productData);
+
         if (productData && productData.coordinates) {
-            setProductCoords(productData.coordinates);
-            setRegion({
-              latitude: productData.latitude,
-              longitude: productData.longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            });
-            
-          }
-        } catch (error) {
-          console.error('Error fetching product coordinates:', error);
+          setProductCoords(productData.coordinates);
+          setRegion({
+            latitude: productData.latitude,
+            longitude: productData.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          });
         }
-      };
-  
+      } catch (error) {
+        console.error("Error fetching product coordinates:", error);
+      }
+    };
 
     fetchProductCoordsFromFirebase();
   }, []);
@@ -59,8 +59,8 @@ const LocMap = () => {
           {productCoords && (
             <Circle
               radius={200}
-              fillColor='rgba(52, 152, 219, 0.1)'
-              strokeColor='blue'
+              fillColor="rgba(52, 152, 219, 0.1)"
+              strokeColor="blue"
               center={{
                 latitude: productCoords[0],
                 longitude: productCoords[1],
