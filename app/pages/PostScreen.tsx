@@ -8,10 +8,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc} from '@firebase/firestore';
 import { firebaseConfig } from '../config/config';
 import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { LatLngLiteral } from 'leaflet';
+import * as Location from 'expo-location';
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
-const auth = getAuth();
+const auth = getAuth(app);
 const storage = getStorage(app);
 
 const fetchProducts = async () => {
@@ -24,13 +26,23 @@ const fetchProducts = async () => {
   return products;
 };
  
+const initialRegion = {
+  latitude: 47.081166,
+  longitude: 2.399125,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
+};
+
 const PostScreen = () => {
   const navigation = useNavigation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
   const [image, setImage] = useState('');
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [region, setRegion] = useState(initialRegion);
+  const [ownPosition, setOwnPosition] = useState<null | LatLngLiteral>(null);
  
   useEffect(() => {
     (async () => {
@@ -72,8 +84,40 @@ const PostScreen = () => {
  
   const handlePublish = async () => {
     try {
-      const newProduct = { title, description };
-      
+      const newProduct = {
+        title,
+        description,
+        /* location, */
+        userId: auth.currentUser?.uid
+      };
+  
+      const getLocationAsync = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.warn('Permission to access location was denied');
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        console.log('Lat:', location.coords.latitude, 'Long:', location.coords.longitude);
+  
+        if (!ownPosition) {
+          setOwnPosition({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          });
+          setRegion({
+            ...region,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          });
+          /* setLocation(`${location.coords.latitude}, ${location.coords.longitude}`); */
+        }
+      };
+  
+      await getLocationAsync().catch((error) => {
+        console.error(error);
+      });
+  
       // Add a document to the "products" collection
       const docRef = await addDoc(collection(firestore, 'products'), newProduct);
       console.log('Document added with ID: ', docRef.id);
@@ -95,6 +139,8 @@ const PostScreen = () => {
       console.error('Error adding document: ', error);
     }
   };
+  
+  
   
  
   return (
@@ -143,3 +189,7 @@ const styles = StyleSheet.create({
 });
  
 export default PostScreen;
+
+function setOwnPosition(arg0: { latitude: any; longitude: any; }) {
+  throw new Error('Function not implemented.');
+}
