@@ -7,6 +7,11 @@ const ScreenProductDetails = ({ route }) => {
   const { product } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
 
+  const handlePurchase = (product) => {
+    // Logique d'achat ici, par exemple, navigation vers une page de paiement
+    console.log('Achat du produit :', product);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -19,6 +24,11 @@ const ScreenProductDetails = ({ route }) => {
           <View style={styles.publisherSection}>
             <Text style={styles.publisherText}>Publisher: {product.publisher}</Text>
           </View>
+
+          {/* Bouton "Achat" */}
+          <TouchableOpacity style={styles.buyButton} onPress={() => handlePurchase(product)}>
+            <Text style={styles.buyButtonText}>Achat</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -99,6 +109,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 30,
     right: 30,
+  },
+  buyButton: {
+    marginTop: 20,
+    backgroundColor: colors.primary,  // Assurez-vous que colors.primary est défini
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buyButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
