@@ -1,22 +1,33 @@
+
 import React from 'react';
-import { StyleSheet, View, FlatList, Image, Text } from 'react-native';
+import { StyleSheet, View, FlatList, Image, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
-  // Les couleurs pour les icônes peuvent toujours être utilisées si nécessaire
+  const navigation = useNavigation();
   const menuItems = [
     {
       title: "My Listings",
       iconUri: require("../assets/list.png"), // Remplacez par votre icône PNG
+      targetScreen: 'MyListingScreen' // Nom de la route pour 'My Listings'
     },
     {
       title: "My Messages",
       iconUri: require("../assets/messenger.png"), // Remplacez par votre icône PNG
+      // Ajoutez targetScreen si nécessaire
     },
     {
       title: "Sign Out",
       iconUri: require("../assets/log-out.png"), // Remplacez par votre icône PNG
+      // Ajoutez targetScreen si nécessaire
     },
   ];
+
+  const handleItemPress = (item) => {
+    if (item.targetScreen) {
+      navigation.navigate(item.targetScreen);
+    }
+  };
 
   return (
     <View style={styles.screen}>
@@ -25,10 +36,12 @@ const ProfileScreen = () => {
           data={menuItems}
           keyExtractor={(menuItem) => menuItem.title}
           renderItem={({ item }) => (
-            <View style={styles.box}>
-              <Image source={item.iconUri} style={styles.icon} />
-              <Text style={styles.boxText}>{item.title}</Text>
-            </View>
+            <TouchableOpacity onPress={() => handleItemPress(item)}>
+              <View style={styles.box}>
+                <Image source={item.iconUri} style={styles.icon} />
+                <Text style={styles.boxText}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
           )}
         />
       </View>
@@ -39,7 +52,7 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#f8f4f4', // Utiliser la couleur light directement ici
+    backgroundColor: '#f8f4f4',
   },
   container: {
     marginVertical: 20,
@@ -55,7 +68,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '98%',
     height: 80,
-    backgroundColor: '#ffffff', // Couleur blanche fixe pour toutes les boîtes
+    backgroundColor: '#ffffff',
     shadowColor: 'rgba(100, 100, 111, 0.2)',
     shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.2,
