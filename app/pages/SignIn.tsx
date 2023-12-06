@@ -31,8 +31,7 @@ const SignIn = () => {
       
         const user = userCredential.user;
         console.log('User signed in: ', user);
-      
-        Alert.alert('Success' , 'Utilisateur connecté');
+    
         signIn();
         navigation.navigate('PostScreen');
         
