@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, Modal, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assurez-vous d'avoir installé cette bibliothèque
 import colors from '../config/colors';
+import LocMap from './Map';
+
 
 const ScreenProductDetails = ({ route }) => {
   const { product } = route.params;
@@ -48,6 +50,7 @@ const ScreenProductDetails = ({ route }) => {
           </TouchableOpacity>
         </View>
       </Modal>
+      <LocMap />
     </View>
   );
 };
