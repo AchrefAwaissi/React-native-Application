@@ -9,7 +9,10 @@ import { getFirestore } from '@firebase/firestore';
 import { firebaseConfig } from '../config/config';
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import AppButton from '../components/AppButton'; 
- 
+
+import { useDispatch } from 'react-redux';
+import { login } from '../features/userSlice';
+
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required'),
@@ -21,9 +24,12 @@ const auth = getAuth(app);
 
 const SignIn = () => {
   const { signIn } = useAuth();
+  
   const navigation = useNavigation();
- 
-  const handleSignIn = (values, { setSubmitting }) => {
+
+  const dispatch = useDispatch();
+
+  const handleSignIn = (values: { email: string; password: string; }, { setSubmitting }: any) => {
     console.log('Credentials:', values);
     setSubmitting(false);
     signInWithEmailAndPassword(auth, values.email, values.password)
@@ -33,6 +39,7 @@ const SignIn = () => {
         console.log('User signed in: ', user);
     
         signIn();
+        dispatch(login(user));
         navigation.navigate('PostScreen');
         
       })

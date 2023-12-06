@@ -12,6 +12,8 @@ import PostScreen from './app/pages/PostScreen';
 import AccountScreen from './app/pages/AccountScreen';
  import ScreenProductDetails from './app/pages/ScreenProductDetails';
 import MyListingScreen from './app/pages/MyListingScreen';
+import { Provider } from 'react-redux';
+import { store } from './app/store/store';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
  
@@ -83,11 +85,13 @@ function AppNavigator() {
  
 const App = () => {
   return (
+    <Provider store={store}>
     <AuthProvider>
       <NavigationContainer>
         <AppNavigator />
       </NavigationContainer>
     </AuthProvider>
+     </Provider>
   );
 };
  
