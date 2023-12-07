@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, Modal, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Assurez-vous d'avoir installé cette bibliothèque
+import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../config/colors';
 import LocMap from './Map';
-
+import { useNavigation } from '@react-navigation/native';
 
 const ScreenProductDetails = ({ route }) => {
+  const navigation = useNavigation();
   const { product } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
 
   const handlePurchase = (product) => {
-    // Logique d'achat ici, par exemple, navigation vers une page de paiement
     console.log('Achat du produit :', product);
+  };
+
+  const handleMessage = (product) => {
+    navigation.navigate('SendMessageScreen');
+    console.log('Message pour le produit :', product);
   };
 
   return (
@@ -27,10 +32,17 @@ const ScreenProductDetails = ({ route }) => {
             <Text style={styles.publisherText}>Publisher: {product.publisher}</Text>
           </View>
 
-          {/* Bouton "Achat" */}
-          <TouchableOpacity style={styles.buyButton} onPress={() => handlePurchase(product)}>
-            <Text style={styles.buyButtonText}>Achat</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity style={styles.buyButton} onPress={() => handlePurchase(product)}>
+              <View style={styles.buttonContent}>
+                <Text style={styles.buyButtonText}>Achat</Text>
+              </View>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.messageButton} onPress={() => handleMessage(product)}>
+              <Icon name="envelope" size={20} color="white" style={styles.icon} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -42,15 +54,12 @@ const ScreenProductDetails = ({ route }) => {
       >
         <View style={styles.fullScreenContainer}>
           <Image source={{ uri: product.imageUri }} style={styles.fullScreenImage} />
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => setModalVisible(false)}
-          >
+          <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
             <Icon name="times" size={30} color="white" />
           </TouchableOpacity>
         </View>
       </Modal>
-      <LocMap productId={product.id}/>
+      <LocMap />
     </View>
   );
 };
@@ -113,18 +122,38 @@ const styles = StyleSheet.create({
     top: 30,
     right: 30,
   },
-  buyButton: {
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 20,
-    backgroundColor: colors.primary,  // Assurez-vous que colors.primary est défini
+  },
+  buyButton: {
+    backgroundColor: colors.primary,
     padding: 10,
     borderRadius: 8,
+    flex: 1,
+    marginRight: 10,
+  },
+  messageButton: {
+    backgroundColor: colors.secondary, // Changez cette couleur selon vos besoins
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    alignItems: 'center', 
+    justifyContent: 'center', 
+  },
+  buttonContent: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   buyButtonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign:'center',
+  },
+  icon: {
+    // Ajoutez des styles pour l'icône si nécessaire
   },
 });
 

@@ -14,6 +14,8 @@ import AccountScreen from './app/pages/AccountScreen';
 import MyListingScreen from './app/pages/MyListingScreen';
 import { Provider } from 'react-redux';
 import { store } from './app/store/store';
+import ListMessageScreen from './app/pages/ListMessageScreen';
+import SendMessageScreen from './app/pages/SendMessageScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
  
@@ -76,7 +78,8 @@ function AppNavigator() {
           <Stack.Screen name="Profile" component={ProfileTabs} options={{ headerShown: false }} />
           <Stack.Screen name="ScreenProductDetails" component={ScreenProductDetails} />
           <Stack.Screen name="MyListingScreen" component={MyListingScreen} />
-
+          <Stack.Screen name="ListMessageScreen" component={ListMessageScreen} />
+          <Stack.Screen name="SendMessageScreen" component={SendMessageScreen} />
         </>
       )}
     </Stack.Navigator>

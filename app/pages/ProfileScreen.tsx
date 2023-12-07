@@ -14,7 +14,7 @@ const ProfileScreen = () => {
     {
       title: "My Messages",
       iconUri: require("../assets/messenger.png"), // Remplacez par votre icône PNG
-      // Ajoutez targetScreen si nécessaire
+      targetScreen: 'ListMessageScreen' // Nom de la route pour 'My Listings'
     },
     {
       title: "Sign Out",
