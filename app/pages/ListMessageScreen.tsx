@@ -1,83 +1,121 @@
+// import React, { useState, useEffect } from 'react';
+// import { View, Text, FlatList, StyleSheet } from 'react-native';
+// import { initializeApp } from "firebase/app";
+// import { getFirestore, collection, query, onSnapshot } from "firebase/firestore";
+// import { firebaseConfig } from "../config/config";
+
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const firestore = getFirestore(app);
+
+// interface Message {
+//   expediteur: string;
+//   message: string;
+//   key: string;
+// }
+
+// const ListMessageScreen: React.FC = () => {
+//   const [messages, setMessages] = useState<Message[]>([]);
+
+//   useEffect(() => {
+//     const q = query(collection(firestore, "messages"));
+
+//     const unsubscribe = onSnapshot(q, (querySnapshot) => {
+//       const messagesArray: Message[] = [];
+//       querySnapshot.forEach((doc) => {
+//         messagesArray.push({ ...doc.data(), key: doc.id } as Message);
+//       });
+//       setMessages(messagesArray);
+//     });
+
+//     return () => unsubscribe(); // Detach listener on unmount
+//   }, []);
+
+//   return (
+//     <View style={styles.container}>
+//       <FlatList
+//         data={messages}
+//         renderItem={({ item }) => (
+//           <Text style={styles.messageItem}>
+//             {item.expediteur}: {item.message}
+//           </Text>
+//         )}
+//         keyExtractor={item => item.key}
+//       />
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     paddingTop: 22
+//   },
+//   messageItem: {
+//     padding: 10,
+//     fontSize: 18,
+//     height: 44,
+//   },
+// });
+
+// export default ListMessageScreen;
+
+
 
 import React, { useState, useEffect } from 'react';
-import { FlatList, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; 
-import colors from '../config/colors';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, query, onSnapshot, where, doc, deleteDoc } from '@firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { firebaseConfig } from '../config/config';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, query, where, onSnapshot } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { firebaseConfig } from "../config/config";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const firestore = getFirestore(app);
 const auth = getAuth(app);
 
-const MyListMessageScreen = () => {
-  const [messages, setMessages] = useState([]);
+interface Message {
+  expediteur: string;
+  message: string;
+  key: string;
+}
+
+const ListMessageScreen: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    if (auth.currentUser) {
-      const userId = auth.currentUser.uid;
-      console.log("UserID:", userId);
-
-      // Fetching both sent and received messages
-      const messagesRef = collection(db, "messages");
-      const sentMessagesQuery = query(messagesRef, where("senderId", "==", userId));
-      const receivedMessagesQuery = query(messagesRef, where("receiverId", "==", userId));
-      
-      const unsubscribeSentMessages = onSnapshot(sentMessagesQuery, (querySnapshot) => {
-        const sentMessages = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log("Sent Messages:", sentMessages);
-        setMessages(prevMessages => [...prevMessages, ...sentMessages]);
-      }, (error) => {
-        console.error("Error fetching sent messages:", error);
-      });
-
-      const unsubscribeReceivedMessages = onSnapshot(receivedMessagesQuery, (querySnapshot) => {
-        const receivedMessages = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log("Received Messages:", receivedMessages);
-        setMessages(prevMessages => [...prevMessages, ...receivedMessages]);
-      }, (error) => {
-        console.error("Error fetching received messages:", error);
-      });
-
-      return () => {
-        unsubscribeSentMessages();
-        unsubscribeReceivedMessages();
-      };
-    } else {
-      console.log("Aucun utilisateur connecté");
-      setMessages([]); // Clear messages if no user is logged in
+    if (!auth.currentUser) {
+      console.log("No user logged in");
+      return;
     }
+    
+    const currentUserId = auth.currentUser.uid;
+    const messagesQuery = query(
+      collection(firestore, "messages"),
+      where("destinataire", "==", currentUserId)
+    );
+
+    const unsubscribe = onSnapshot(messagesQuery, (querySnapshot) => {
+      const messagesArray: Message[] = [];
+      querySnapshot.forEach((doc) => {
+        messagesArray.push({ ...doc.data(), key: doc.id } as Message);
+      });
+      setMessages(messagesArray);
+    });
+
+    return () => unsubscribe(); // Detach listener on unmount
   }, []);
-
-  const deleteMessage = async (messageId) => {
-    try {
-      await deleteDoc(doc(db, "messages", messageId));
-      console.log("Message supprimé:", messageId);
-      setMessages(currentMessages => currentMessages.filter(message => message.id !== messageId));
-    } catch (error) {
-      console.error("Erreur lors de la suppression du message:", error);
-    }
-  };
-
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.title}>{item.title || 'No Title'}</Text>
-      <Text style={styles.description}>{item.message || 'No Content'}</Text>
-      <TouchableOpacity onPress={() => deleteMessage(item.id)}>
-        <AntDesign name="delete" size={24} color={colors.primary} />
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
       <FlatList
         data={messages}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <Text style={styles.messageItem}>
+            {item.expediteur}: {item.message}
+          </Text>
+        )}
+        keyExtractor={item => item.key}
       />
     </View>
   );
@@ -86,27 +124,13 @@ const MyListMessageScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingTop: 22
   },
-  card: {
-    backgroundColor: colors.white,
-    marginBottom: 20,
-    padding: 20,
-    borderRadius: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  title: {
+  messageItem: {
+    padding: 10,
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 7,
-  },
-  description: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.secondary,
+    height: 44,
   },
 });
 
-export default MyListMessageScreen;
+export default ListMessageScreen;
