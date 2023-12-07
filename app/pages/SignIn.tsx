@@ -9,6 +9,7 @@ import { getFirestore } from "@firebase/firestore";
 import { firebaseConfig } from "../config/config";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import AppButton from "../components/AppButton";
+import Icon from 'react-native-vector-icons/FontAwesome'; // Importation de FontAwesome
 
 import { useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
@@ -70,27 +71,33 @@ const SignIn = () => {
           isSubmitting,
         }) => (
           <>
-            <TextInput
-              placeholder="Email"
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
-              value={values.email}
-              style={styles.input}
-              keyboardType="email-address"
-              inputMode="email"
-              autoCapitalize="none"
-            />
+           <View style={styles.inputContainer}>
+              <Icon name="envelope" size={20} color="#4ecdc4" />
+              <TextInput
+                placeholder="Email"
+                onChangeText={handleChange("email")}
+                onBlur={handleBlur("email")}
+                value={values.email}
+                style={styles.input}
+                keyboardType="email-address"
+                inputMode="email"
+                autoCapitalize="none"
+              />
+            </View>
             {touched.email && errors.email && (
               <Text style={styles.error}>{errors.email}</Text>
             )}
-            <TextInput
-              placeholder="Password"
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              value={values.password}
-              secureTextEntry
-              style={styles.input}
-            />
+            <View style={styles.inputContainer}>
+              <Icon name="lock" size={20} color="#4ecdc4" />
+              <TextInput
+                placeholder="Password"
+                onChangeText={handleChange("password")}
+                onBlur={handleBlur("password")}
+                value={values.password}
+                secureTextEntry
+                style={styles.input}
+              />
+            </View>
             {touched.password && errors.password && (
               <Text style={styles.error}>{errors.password}</Text>
             )}
@@ -112,25 +119,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
+    backgroundColor: "white",
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#4ecdc4',
+    borderWidth: 1,
+    borderRadius: 25,
+    width: '90%',
+    padding: 15,
+    marginBottom: 10,
+    marginVertical: 10,
+  },
+  input: {
+    flex: 1,
+    marginLeft: 10,
+    textAlign: 'center',
   },
   buttonContainer: {
     padding: 20,
     width: "100%",
   },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    fontSize: 16,
-    width: "90%",
-    alignSelf: "center",
-  },
   error: {
-    color: "red",
+    color: 'red',
+    marginBottom: 10,
+    fontSize:14,
+    fontWeight:'bold',
   },
 });
 
