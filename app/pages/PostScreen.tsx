@@ -162,9 +162,13 @@ const PostScreen = () => {
       />
     </View>
     <Button title="Choisir une image" onPress={handleChooseImage} />
-    {image && (
-      <Image source={{ uri: image }} style={{ width: 200, height: 200,borderRadius:20,}} />
-    )}
+<View style={styles.imagePlaceholder}>
+  {image ? (
+    <Image source={{ uri: image }} style={styles.image} />
+  ) : (
+    <Text style={styles.buttonText}>Image non sélectionnée</Text> // Vous pouvez remplacer ce texte par autre chose si vous le souhaitez
+  )}
+</View>
     
     <TouchableOpacity
 onPress={handlePublish}
@@ -229,6 +233,24 @@ buttonText: {
 buttonDisabled: {
   backgroundColor: '#cccccc', 
   borderColor: '#cccccc', 
+},
+imagePlaceholder: {
+  width: 200,
+  height: 200,
+  borderRadius: 20,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#c0c0c0', 
+  shadowColor: 'rgba(100, 100, 111, 0.2)',
+  shadowOffset: { width: 0, height: 7 },
+  shadowOpacity: 0.2,
+  shadowRadius: 29,
+  elevation: 5, // pour Android // Couleur de fond pour le placeholder
+},
+image: {
+  width: 200,
+  height: 200,
+  borderRadius: 20,
 },
 });
 
