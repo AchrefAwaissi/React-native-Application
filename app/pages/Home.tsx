@@ -22,6 +22,7 @@ interface Product {
   description: string;
   imageUri: string;
   publisher: string;
+  userId: string;
 }
 
 type HomeScreenRouteProp = RouteProp<{ Home: { newProduct: Product } }, "Home">;

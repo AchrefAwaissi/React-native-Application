@@ -4,14 +4,34 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../config/colors';
 import LocMap from './Map';
 import { useNavigation } from '@react-navigation/native';
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc } from "@firebase/firestore";
+import { firebaseConfig } from "../config/config";
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const ScreenProductDetails = ({ route }) => {
   const navigation = useNavigation();
   const { product } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handlePurchase = (product) => {
+  const handlePurchase = async (product) => {
     console.log('Achat du produit :', product);
+
+    // Copier le produit dans la table "sold_products" (en excluant longitude et latitude)
+    try {
+      const { longitude, latitude, ...productWithoutLocation } = product;
+
+      const newSoldProductRef = await addDoc(collection(db, 'sold_products'), {
+        ...productWithoutLocation,
+        // Ajoutez d'autres champs si nécessaire
+      });
+
+      console.log('Produit copié dans sold_products avec l\'ID:', newSoldProductRef.id);
+    } catch (error) {
+      console.error('Erreur lors de la copie du produit dans sold_products :', error);
+    }
   };
 
   const handleMessage = (product) => {
@@ -38,7 +58,7 @@ const ScreenProductDetails = ({ route }) => {
                 <Text style={styles.buyButtonText}>Achat</Text>
               </View>
             </TouchableOpacity>
-            
+
             <TouchableOpacity style={styles.messageButton} onPress={() => handleMessage(product)}>
               <Icon name="envelope" size={20} color="white" style={styles.icon} />
             </TouchableOpacity>
@@ -59,7 +79,7 @@ const ScreenProductDetails = ({ route }) => {
           </TouchableOpacity>
         </View>
       </Modal>
-      <LocMap productId={product.id}/>
+      <LocMap productId={product.id} /> 
     </View>
   );
 };
@@ -135,12 +155,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   messageButton: {
-    backgroundColor: colors.secondary, // Changez cette couleur selon vos besoins
+    backgroundColor: colors.secondary,
     padding: 10,
     borderRadius: 8,
     flex: 1,
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonContent: {
     flexDirection: 'row',
@@ -150,7 +170,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign:'center',
+    textAlign: 'center',
   },
   icon: {
     // Ajoutez des styles pour l'icône si nécessaire

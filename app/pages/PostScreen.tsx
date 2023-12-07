@@ -111,7 +111,7 @@ const PostScreen = () => {
 
       const docRef = await addDoc(
         collection(firestore, "products"),
-        newProduct
+        newProduct 
       );
       console.log("Document added with ID: ", docRef.id);
 
