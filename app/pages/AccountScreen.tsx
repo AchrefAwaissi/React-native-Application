@@ -108,47 +108,64 @@ export default function AccountScreen() {
 
   return (
     <View style={styles.container}>
-      {userData && (
-        <View style={styles.profileContainer}>
-          <TouchableOpacity onPress={handleChooseImage} style={styles.profileImageContainer}>
-            {image ? (
-              <Image source={{ uri: image }} style={styles.profileImage} />
-            ) : (
-              <Text style={styles.profileImagePlaceholder}>Select Image</Text>
-            )}
-          </TouchableOpacity>
-          <Text style={styles.userInfo}>{`Nom: ${userData.nom}`}</Text>
-          <Text style={styles.userInfo}>{`Prénom: ${userData.prenom}`}</Text>
-          <Text style={styles.userInfo}>{`Email: ${userData.email}`}</Text>
-          <Text style={styles.userInfo}>{`Adresse: ${userData.adresse}`}</Text>
+    {userData && (
+      <View style={styles.profileContainer}>
+        <TouchableOpacity onPress={handleChooseImage} style={styles.profileImageContainer}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.profileImage} />
+          ) : (
+            <Text style={styles.profileImagePlaceholder}>Select Image</Text>
+          )}
+        </TouchableOpacity>
+        <View style={styles.userInfoRow}>
+          <Text style={styles.userInfoTitle}>Nom:</Text>
+          <Text style={styles.userInfo}>{userData.nom}</Text>
         </View>
-      )}
-      <Button title="Sign Out" onPress={handleSignOut} />
-      <ProfileScreen></ProfileScreen>
-    </View>
-  );
-}
+        <View style={styles.userInfoRow}>
+          <Text style={styles.userInfoTitle}>Prénom:</Text>
+          <Text style={styles.userInfo}>{userData.prenom}</Text>
+        </View>
+        <View style={styles.userInfoRow}>
+          <Text style={styles.userInfoTitle}>Email:</Text>
+          <Text style={styles.userInfo}>{userData.email}</Text>
+        </View>
+        <View style={styles.userInfoRow}>
+          <Text style={styles.userInfoTitle}>Adresse:</Text>
+          <Text style={styles.userInfo}>{userData.adresse}</Text>
+        </View>
+      </View>
+    )}
+ <ProfileScreen></ProfileScreen>
+ <Button title="Sign Out" onPress={handleSignOut} />
+  </View>
+ );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
     paddingTop: 30,
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f0f0', // Arrière-plan plus doux
   },
   profileContainer: {
     alignItems: 'center',
     marginBottom: 20,
+    backgroundColor: '#ffffff', // Fond blanc pour faire ressortir le contenu
+    borderRadius: 10,
+    padding: 10,
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Ombre portée pour la profondeur
   },
   profileImageContainer: {
     borderRadius: 100,
     overflow: 'hidden',
-    borderColor: 'black',
-    borderWidth: 2,
+    borderColor: '#4ecdc4',
+    borderWidth: 4,
     width: 120,
     height: 120,
     justifyContent: 'center',
     alignItems: 'center',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Ombre légère pour l'image
   },
   profileImage: {
     width: '100%',
@@ -159,14 +176,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   userInfo: {
     fontSize: 16,
     marginTop: 5,
+    fontWeight: '500', // Texte légèrement en gras
+    color: '#333', // Couleur du texte plus
+  },  userInfoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  userInfoTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginRight: 5,
+  },
+  userInfo: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
- 
