@@ -1,7 +1,5 @@
-// AuthContext.js
 import React, { createContext, useState, useContext } from 'react';
 
-// Initialisation du contexte avec des valeurs par défaut
 const AuthContext = createContext({
   isLoggedIn: false,
   signIn: () => {},
@@ -10,7 +8,8 @@ const AuthContext = createContext({
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider = ({ children }) => {
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const signIn = () => setIsLoggedIn(true);

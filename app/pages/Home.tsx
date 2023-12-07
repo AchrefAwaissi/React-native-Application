@@ -35,7 +35,14 @@ const Home = () => {
       const productsQuerySnapshot = await getDocs(collection(firestore, "products"));
       const productsData: Product[] = productsQuerySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
+        title: doc.data().title,
+        price: doc.data().price,
+        description: doc.data().description,
+        imageUri: doc.data().imageUri,
+        publisher: doc.data().publisher,
+        userId: doc.data().userId,
+        publishedAt: doc.data().publishedAt,
+        userName: doc.data().userName,
       }));
 
       setProducts(productsData);

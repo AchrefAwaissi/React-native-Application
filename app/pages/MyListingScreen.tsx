@@ -33,13 +33,15 @@ const MyListingScreen = () => {
         console.error("Erreur lors de la récupération des produits :", error);
       });
 
+
+
       return () => unsubscribe();
     } else {
       console.log("Aucun utilisateur connecté");
     }
  }, []);
 
- const deleteProduct = async (productId) => {
+ const deleteProduct = async (productId: string) => {
     // Supprimer de Firebase
     try {
       await deleteDoc(doc(db, "products", productId));
@@ -52,7 +54,7 @@ const MyListingScreen = () => {
     }
  };
 
- const renderItem = ({ item }) => (
+ const renderItem = ({ item }: { item: { id: string, title: string, description: string } }) => (
     <View style={styles.card}>
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.description}>{item.description}</Text>

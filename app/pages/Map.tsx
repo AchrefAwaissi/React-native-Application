@@ -16,7 +16,11 @@ const initialRegion = {
   longitudeDelta: 0.0421,
 };
 
-const LocMap = ({ productId }) => {
+interface LocMapProps {
+  productId: string;
+}
+
+const LocMap: React.FC<LocMapProps> = ({ productId }) => {
   const [region, setRegion] = useState(initialRegion);
   const [productCoords, setProductCoords] = useState<null | LatLngLiteral>(null);
 
@@ -27,10 +31,11 @@ const LocMap = ({ productId }) => {
       const productData = productDoc.data();
 
       if (productData !== undefined && productData !== null) {
+        const { latitude, longitude } = productData;
         setProductCoords({
-          latitude: productData.latitude,
-          longitude: productData.longitude,
-        });
+          lat: latitude,
+          lng: longitude,
+        } as LatLngLiteral);
       }
     } catch (error) {
       console.error('Error fetching product coordinates:', error);
@@ -44,10 +49,10 @@ const LocMap = ({ productId }) => {
   useEffect(() => {
     if (productCoords) {
       setRegion({
-        latitude: productCoords.latitude,
-        longitude: productCoords.longitude,
-        latitudeDelta: 0.02,
-        longitudeDelta: 0.02,
+        latitude: productCoords.lat, 
+        longitude: productCoords.lng, 
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
       });
     }
   }, [productCoords]);
@@ -66,8 +71,8 @@ const LocMap = ({ productId }) => {
               fillColor='rgba(52, 152, 219, 0.1)'
               strokeColor='blue'
               center={{
-                latitude: productCoords.latitude,
-                longitude: productCoords.longitude,
+                latitude: productCoords.lat,
+                longitude: productCoords.lng,
               }}
             />
           )}
