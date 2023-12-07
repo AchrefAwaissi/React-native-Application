@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet, TextInput, Image } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
@@ -10,6 +10,7 @@ import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseConfig } from "../config/config";
 import { LatLngLiteral } from "leaflet";
 import * as Location from "expo-location";
+import Icon from 'react-native-vector-icons/FontAwesome'; // Importing FontAwesome
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -130,19 +131,19 @@ const PostScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Publier un produit</Text>
+    <Text style={styles.heading}>Poster une annonce</Text>
+
+    <View style={styles.inputContainer}>
+      <Icon name="pencil" size={20} color="#4ecdc4" />
       <TextInput
         placeholder="Titre"
         value={title}
         onChangeText={(text) => setTitle(text)}
         style={styles.input}
       />
-      <TextInput
-        placeholder="Description"
-        value={description}
-        onChangeText={(text) => setDescription(text)}
-        style={styles.input}
-      />
+    </View>
+    <View style={styles.inputContainer}>
+      <Icon name="money" size={20} color="#4ecdc4" />
       <TextInput
         placeholder="Prix"
         value={price}
@@ -150,39 +151,85 @@ const PostScreen = () => {
         keyboardType="numeric"
         style={styles.input}
       />
-      <Button title="Choisir une image" onPress={handleChooseImage} />
-      {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-      )}
-      <Button
-        title="Publier"
-        onPress={handlePublish}
-        disabled={!title || !description || !image || !price}
+    </View>
+    <View style={styles.inputContainer}>
+      <Icon name="align-left" size={20} color="#4ecdc4" />
+      <TextInput
+        placeholder="Description"
+        value={description}
+        onChangeText={(text) => setDescription(text)}
+        style={styles.input}
       />
     </View>
-  );
+    <Button title="Choisir une image" onPress={handleChooseImage} />
+    {image && (
+      <Image source={{ uri: image }} style={{ width: 200, height: 200,borderRadius:20,}} />
+    )}
+    
+    <TouchableOpacity
+onPress={handlePublish}
+disabled={!title || !description || !image || !price}
+style={[
+  styles.button,
+  (!title || !description || !image || !price) ? styles.buttonDisabled : {}
+]}
+>
+<Text style={styles.buttonText}>Publier</Text>
+</TouchableOpacity>
+  </View>
+);
 };
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  input: {
-    width: "80%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 20,
-  },
+container: {
+  flex: 1,
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "#fff",
+},
+heading: {
+  fontSize: 24,
+  fontWeight: "bold",
+  marginBottom: 20,
+  color:"#fc5c65"
+},
+inputContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderColor: '#4ecdc4',
+  borderWidth: 1,
+  borderRadius: 25,
+  width: '90%',
+  padding: 15,
+  marginBottom: 10,
+  marginVertical: 10,
+},
+input: {
+  flex: 1,
+  marginLeft: 10,
+  textAlign: 'center',
+},
+button: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderColor: 'white',
+  borderWidth: 1,
+  borderRadius: 25,
+  width: '90%',
+  padding: 15,
+  marginBottom: 10,
+  marginVertical: 10,
+  backgroundColor: '#fc5c65', 
+},
+buttonText: {
+  color: 'white', 
+  fontSize: 16, 
+  fontWeight: 'bold',
+},
+buttonDisabled: {
+  backgroundColor: '#cccccc', 
+  borderColor: '#cccccc', 
+},
 });
 
 export default PostScreen;
