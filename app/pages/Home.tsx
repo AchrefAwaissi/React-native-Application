@@ -18,6 +18,7 @@ interface Product {
   publisher: string;
   userId: string;
   publishedAt: string;
+  userName?: string; 
 }
 
 type HomeScreenRouteProp = RouteProp<{ Home: { newProduct: Product } }, "Home">;
@@ -27,13 +28,12 @@ const Home = () => {
   const navigation = useNavigation();
   const { newProduct } = (route.params as { newProduct?: Product }) || {};
   const [products, setProducts] = useState<Product[]>([]);
+  const [users, setUsers] = useState<any[]>([]); // Change 'any' to the type of your user data
 
   useEffect(() => {
     const fetchProducts = async () => {
-      // Assuming 'products' is the name of your Firestore collection
-      const querySnapshot = await getDocs(collection(firestore, "products"));
-
-      const productsData: Product[] = querySnapshot.docs.map((doc) => ({
+      const productsQuerySnapshot = await getDocs(collection(firestore, "products"));
+      const productsData: Product[] = productsQuerySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
@@ -41,8 +41,24 @@ const Home = () => {
       setProducts(productsData);
     };
 
+    const fetchUsers = async () => {
+      const usersQuerySnapshot = await getDocs(collection(firestore, "Utilisateurs"));
+      const usersData = usersQuerySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setUsers(usersData);
+    };
+
     fetchProducts();
+    fetchUsers();
   }, [newProduct]);
+
+  const getUserData = (userId: string) => {
+    const user = users.find((user) => user.id === userId);
+    return user ? `${user.nom} ${user.prenom}` : "Unknown User";
+  };
 
   const navigateToPostScreenDetails = (product: Product) => {
     navigation.navigate("ScreenProductDetails", { product });
@@ -60,8 +76,8 @@ const Home = () => {
               <View style={styles.detailsContainer}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.description}>{item.price}€</Text>
-                <Text style={styles.publisher}>Publisher : {item.publisher}</Text>
-                <Text style={styles.publisher}>Publié le : {item.publishedAt}</Text>
+                <Text style={styles.publisher}>Publié le: {item.publishedAt}</Text>
+                <Text style={styles.publisher}>Par: {getUserData(item.userId)}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -70,6 +86,7 @@ const Home = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

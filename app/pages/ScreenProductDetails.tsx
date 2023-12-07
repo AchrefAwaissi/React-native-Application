@@ -51,8 +51,7 @@ const ScreenProductDetails = ({ route }) => {
           <Text style={styles.price}>{product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>
           <View style={styles.publisherSection}>
-            <Text style={styles.publisherText}>Publisher: {product.publisher}</Text>
-            <Text style={styles.description}> {product.publishedAt}</Text>
+            <Text style={styles.description}> Publié le: {product.publishedAt}</Text>
           </View>
 
           <View style={styles.buttonsContainer}>

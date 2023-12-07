@@ -6,10 +6,11 @@ import { getFirestore, collection, getDocs, where, query } from '@firebase/fires
 import { getAuth, onAuthStateChanged, signOut, updateProfile } from 'firebase/auth';
 import { firebaseConfig } from '../config/config';
 import ProfileScreen from './ProfileScreen';
-import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 
 
 interface UserData {
+  photoURL: string | null;
   nom: string;
   prenom: string;
   email: string; 
