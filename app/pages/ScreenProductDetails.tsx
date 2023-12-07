@@ -50,7 +50,7 @@ const ScreenProductDetails = ({ route }) => {
           </TouchableOpacity>
         </View>
       </Modal>
-      <LocMap />
+      <LocMap productId={product.id}/>
     </View>
   );
 };

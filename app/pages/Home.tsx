@@ -17,6 +17,7 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
 interface Product {
+  id: string;
   title: string;
   description: string;
   imageUri: string;
@@ -36,11 +37,10 @@ const Home = () => {
       // Assuming 'products' is the name of your Firestore collection
       const querySnapshot = await getDocs(collection(firestore, "products"));
 
-      const productsData: Product[] = [];
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as Product;
-        productsData.push(data);
-      });
+      const productsData: Product[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
       setProducts(productsData);
     };
@@ -56,7 +56,7 @@ const Home = () => {
     <View style={styles.container}>
       <FlatList
         data={products}
-        keyExtractor={(item) => item.title}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => navigateToPostScreenDetails(item)}>
             <View style={styles.card}>
@@ -64,6 +64,7 @@ const Home = () => {
               <View style={styles.detailsContainer}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.description}>{item.description}</Text>
+                <Text style={styles.publisher}>Publisher : {item.publisher}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -114,5 +115,9 @@ const styles = StyleSheet.create({
   detailsContainer: {
     padding: 20,
   },
+  publisher: {
+    fontSize: 14,
+    color: 'gray',
+  },  
 });
 export default Home;

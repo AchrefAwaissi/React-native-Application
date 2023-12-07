@@ -16,13 +16,13 @@ const initialRegion = {
   longitudeDelta: 0.0421,
 };
  
-const LocMap = () => {
+const LocMap = ({ productId }) => {
   const [region, setRegion] = useState(initialRegion);
   const [productCoords, setProductCoords] = useState<null | LatLngLiteral>(null);
  
   const fetchProductCoordsFromFirebase = async () => {
     try {
-      const selectedProductId = 'DyAgVniZenCWHt6ZKlc4';
+      const selectedProductId = productId;
       const productDoc = await getDoc(doc(collection(firestore, 'products'), selectedProductId));
       const productData = productDoc.data();
  
