@@ -24,10 +24,10 @@ function WelcomeScreen(props: WelcomeScreenProps) {
   };
 
   return (
-    <ImageBackground blurRadius={1} style={styles.background}>
+    <View  style={styles.background}>
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require("../assets/logo.png")}/>
-        <Text style={styles.tagline}>Sell What You Don't Need</Text>
+        <Image style={styles.logo} source={require("../assets/welcome.png")}/>
+        {/* <Text style={styles.tagline}>Sell What You Don't Need</Text> */}
       </View>
       <View style={styles.buttonsContainer}>
         {/* Rendre le composant SignIn sur le clic du bouton de connexion */}
@@ -40,7 +40,7 @@ function WelcomeScreen(props: WelcomeScreenProps) {
           <SignUp onPress={handleRegisterPress} />
         </AppButton>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
@@ -56,8 +56,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 340,
+    height: 300,
+
   },
   logoContainer: {
     position: "absolute",

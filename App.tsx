@@ -75,7 +75,7 @@ function AppNavigator() {
         </>
       ) : (
         <>
-          <Stack.Screen name="Profile" component={ProfileTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="Back" component={ProfileTabs} options={{ headerShown: false }} />
           <Stack.Screen name="ScreenProductDetails" component={ScreenProductDetails} />
           <Stack.Screen name="MyListingScreen" component={MyListingScreen} />
           <Stack.Screen name="ListMessageScreen" component={ListMessageScreen} />
