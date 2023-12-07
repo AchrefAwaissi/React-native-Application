@@ -32,9 +32,9 @@ const ProfileScreen = () => {
     },
   ];
 
-  const handleItemPress = (item) => {
+  const handleItemPress = (item: { title: any; iconUri?: any; targetScreen: any; }) => {
     if (item.targetScreen) {
-      navigation.navigate(item.targetScreen);
+      navigation.navigate(item.targetScreen as never);
     } else if (item.title === 'Sign Out') {
       handleSignOut();
     }

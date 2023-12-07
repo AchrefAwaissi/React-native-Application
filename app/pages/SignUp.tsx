@@ -47,7 +47,7 @@ const SignUp = () => {
         const user = userCredential.user;
         console.log('User signed up: ', user);
         Alert.alert('Success', 'Utilisateur créé avec succès');
-        navigation.navigate('SignIn');
+        navigation.navigate('SignIn' as never);
         
         addDoc(collection(db, 'Utilisateurs'), {
           id: user.uid,
@@ -81,7 +81,7 @@ const SignUp = () => {
     <View style={styles.container}>
       <Text style={styles.subtitle}>Sign Up</Text>
       <Formik
-        initialValues={{ nom: '', prenom: '', email: '', password: '', address: '' }}
+        initialValues={{ id: '', nom: '', prenom: '', email: '', password: '', address: '' }}
         validationSchema={SignUpSchema}
         onSubmit={handleSignUp}
       >

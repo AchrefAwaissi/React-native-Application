@@ -3,20 +3,26 @@ import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, ScrollView } fr
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../config/colors';
 import LocMap from './Map';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, doc, deleteDoc } from "@firebase/firestore";
 import { firebaseConfig } from "../config/config";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const ScreenProductDetails = ({ route }) => {
-  const navigation = useNavigation();
+type ScreenProductDetailsProps = {
+  route: RouteProp<RootStackParamList, 'ScreenProductDetails'>;
+  navigation: StackNavigationProp<RootStackParamList, 'ScreenProductDetails'>;
+};
+
+const ScreenProductDetails: React.FC<ScreenProductDetailsProps> = ({ route, navigation }) => {
   const { product } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handlePurchase = async (product) => {
+  const handlePurchase = async (product: any) => {
     console.log('Achat du produit :', product);
 
     try {
@@ -35,7 +41,7 @@ const ScreenProductDetails = ({ route }) => {
     }
   };
 
-  const handleMessage = (product) => {
+  const handleMessage = (product: any) => {
     navigation.navigate('SendMessageScreen', { product });
     console.log('Message pour le produit :', product);
   };
@@ -85,6 +91,7 @@ const ScreenProductDetails = ({ route }) => {
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

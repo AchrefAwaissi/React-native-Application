@@ -25,7 +25,6 @@ const PostScreen = () => {
   const [price, setPrice] = useState(""); // Added for price
   const [image, setImage] = useState("");
   const [hasPermission, setHasPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
   const [ownPosition, setOwnPosition] = useState<null | LatLngLiteral>(null);
 
   useEffect(() => {
@@ -40,10 +39,11 @@ const PostScreen = () => {
         console.log("Lat:", location.coords.latitude, "Long:", location.coords.longitude);
 
         if (!ownPosition) {
-          setOwnPosition({
+          setOwnPosition((prevState) => ({
+            ...prevState!,
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-          });
+          }));
           setLatitude(location.coords.latitude.toString());
           setLongitude(location.coords.longitude.toString());
         }

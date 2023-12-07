@@ -1,12 +1,14 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import {navigate} from '@react-navigation/native';
+import { useNavigation} from '@react-navigation/native';
+
+const navigation = useNavigation();
 
 const ViewImageScreen = ({route}) => {
  const {imageUrl} = route.params;
 
  const handleCloseImage = () => {
-    navigate('ProductDetailsScreen');
+    navigation.navigate('ProductDetailsScreen' as never);
  };
 
  return (

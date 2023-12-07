@@ -1,37 +1,33 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import {getFirestore,collection,addDoc} from "@firebase/firestore";
+import { getFirestore, collection, addDoc } from "@firebase/firestore";
 import { firebaseConfig } from "../config/config";
-import { useNavigation } from '@react-navigation/native';
 
- 
-const app = initializeApp(firebaseConfig); 
+const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const auth = getAuth(app);
 
-
-const SendMessageScreen = ({ route }) => {
+const SendMessageScreen = ({ route }: { route: { params: { product: any } } }) => {
   const { product } = route.params;
   const [message, setMessage] = useState('');
   const receiverId = product.userId;
-  const senderId = auth.currentUser.uid;
-    
+  const senderId = auth.currentUser?.uid;
 
-  const handleSendMessage = async (product) => {
+  const handleSendMessage = async (product: any) => {
     if (message.trim() === '') {
       Alert.alert("Error", "Message is empty");
       return;
     }
-  
+
     try {
       console.log('receiverId:', receiverId);
       const messageDocRef = await addDoc(collection(firestore, 'messages'), {
-      destinataire: receiverId,
-      message,
-      expediteur: senderId
-});
+        destinataire: receiverId,
+        message,
+        expediteur: senderId
+      });
 
       setMessage('');
       Alert.alert("Success", "Message sent with document ID: " + messageDocRef.id);
@@ -40,7 +36,6 @@ const SendMessageScreen = ({ route }) => {
       Alert.alert("Error", "Failed to send message");
     }
   };
-  
 
   return (
     <View style={styles.container}>
