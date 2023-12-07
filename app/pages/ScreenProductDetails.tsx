@@ -5,7 +5,7 @@ import colors from '../config/colors';
 import LocMap from './Map';
 import { useNavigation } from '@react-navigation/native';
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "@firebase/firestore";
+import { getFirestore, collection, addDoc, doc, deleteDoc } from "@firebase/firestore";
 import { firebaseConfig } from "../config/config";
 
 const app = initializeApp(firebaseConfig);
@@ -19,16 +19,19 @@ const ScreenProductDetails = ({ route }) => {
   const handlePurchase = async (product) => {
     console.log('Achat du produit :', product);
 
-    // Copier le produit dans la table "sold_products" (en excluant longitude et latitude)
     try {
-      const { longitude, latitude, ...productWithoutLocation } = product;
+      const { id, longitude, latitude, ...productWithoutLocation } = product;
 
+      // Add the product to the 'sold_products' collection
       const newSoldProductRef = await addDoc(collection(db, 'sold_products'), {
         ...productWithoutLocation,
-        // Ajoutez d'autres champs si nécessaire
       });
 
       console.log('Produit copié dans sold_products avec l\'ID:', newSoldProductRef.id);
+
+      // Remove the product from the 'products' collection
+      await deleteDoc(doc(db, 'products', id));
+      console.log('Produit supprimé de la collection products avec l\'ID:', id);
     } catch (error) {
       console.error('Erreur lors de la copie du produit dans sold_products :', error);
     }
@@ -173,7 +176,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   icon: {
-    // Ajoutez des styles pour l'icône si nécessaire
   },
 });
 
