@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "@firebase/firestore";
@@ -19,6 +12,7 @@ const firestore = getFirestore(app);
 interface Product {
   id: string;
   title: string;
+  price: string;
   description: string;
   imageUri: string;
   publisher: string;
@@ -64,7 +58,7 @@ const Home = () => {
               <Image source={{ uri: item.imageUri }} style={styles.image} />
               <View style={styles.detailsContainer}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.description}>{item.description}</Text>
+                <Text style={styles.description}>{item.price}€</Text>
                 <Text style={styles.publisher}>Publisher : {item.publisher}</Text>
               </View>
             </View>

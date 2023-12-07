@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../config/colors';
 import LocMap from './Map';
@@ -41,7 +41,7 @@ const ScreenProductDetails = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.card}>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Image source={{ uri: product.imageUri }} style={styles.image} />
@@ -81,7 +81,7 @@ const ScreenProductDetails = ({ route }) => {
         </View>
       </Modal>
       <LocMap productId={product.id} /> 
-    </View>
+    </ScrollView>
   );
 };
 
