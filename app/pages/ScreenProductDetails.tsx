@@ -35,7 +35,7 @@ const ScreenProductDetails = ({ route }) => {
   };
 
   const handleMessage = (product) => {
-    navigation.navigate('SendMessageScreen');
+    navigation.navigate('SendMessageScreen', { product });
     console.log('Message pour le produit :', product);
   };
 

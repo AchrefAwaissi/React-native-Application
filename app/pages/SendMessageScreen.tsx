@@ -13,7 +13,6 @@ const auth = getAuth(app);
 
 
 const SendMessageScreen = ({ route }) => {
-  const navigation = useNavigation();
   const { product } = route.params;
   const [message, setMessage] = useState('');
   const receiverId = product.userId;
@@ -45,7 +44,6 @@ const SendMessageScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Send Message to User ID: {receiverId}</Text>
       <TextInput
         style={styles.input}
         placeholder="Type your message here..."
