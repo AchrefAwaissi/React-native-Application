@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, query, where, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -42,14 +42,23 @@ const ListMessageScreen: React.FC = () => {
     return () => unsubscribe(); // Detach listener on unmount
   }, []);
 
+  const handleReply = () => {
+    // Logique pour répondre au message
+    console.log('Répondre au message');
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
         data={messages}
         renderItem={({ item }) => (
-          <Text style={styles.messageItem}>
-            {item.expediteur}: {item.message}
-          </Text>
+          <View style={styles.card}>
+            <TouchableOpacity style={styles.replyBubble} onPress={handleReply}>
+              <Text style={styles.replyText}>Répondre</Text>
+            </TouchableOpacity>
+            <Text style={styles.title}>{item.expediteur}</Text>
+            <Text style={styles.description}>{item.message}</Text>
+          </View>
         )}
         keyExtractor={item => item.key}
       />
@@ -60,13 +69,37 @@ const ListMessageScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 22
+    padding: 16,
   },
-  messageItem: {
-    padding: 10,
+  card: {
+    backgroundColor: 'white',
+    marginBottom: 20,
+    padding: 20,
+    borderRadius: 10,
+    position: 'relative',
+  },
+  replyBubble: {
+    backgroundColor: '#fc5c65',
+    position: 'absolute',
+    top: 0,
+    right: 0, 
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    zIndex: 1,
+  },
+  replyText: {
+    color: 'white',
+    fontSize: 12,
+  },
+  title: {
     fontSize: 18,
-    height: 44,
-    //css
+    fontWeight: 'bold',
+    marginBottom: 7,
+  },
+  description: {
+    fontSize: 16,
+    color: 'grey',
   },
 });
 

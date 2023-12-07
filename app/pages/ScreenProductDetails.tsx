@@ -53,27 +53,30 @@ const ScreenProductDetails: React.FC<ScreenProductDetailsProps> = ({ route, navi
           <Image source={{ uri: product.imageUri }} style={styles.image} />
         </TouchableOpacity>
         <View style={styles.detailsContainer}>
-          <Text style={styles.title}>{product.title}</Text>
+          <View style={styles.titleRow}>
+            <Text style={styles.title}>{product.title}</Text>
+            <View style={styles.viewsContainer}>
+              <Icon name="eye" size={20} color="black" />
+              <Text style={styles.viewCount}>{product.views}12</Text>
+            </View>
+          </View>
           <Text style={styles.price}>{product.price}€</Text>
           <Text style={styles.description}>{product.description}</Text>
           <View style={styles.publisherSection}>
-            <Text style={styles.description}> Publié le: {product.publishedAt}</Text>
+            <Text style={styles.description}>Publié le: {product.publishedAt}</Text>
           </View>
-
           <View style={styles.buttonsContainer}>
             <TouchableOpacity style={styles.buyButton} onPress={() => handlePurchase(product)}>
               <View style={styles.buttonContent}>
                 <Text style={styles.buyButtonText}>Achat</Text>
               </View>
             </TouchableOpacity>
-
             <TouchableOpacity style={styles.messageButton} onPress={() => handleMessage(product)}>
               <Icon name="envelope" size={20} color="white" style={styles.icon} />
             </TouchableOpacity>
           </View>
         </View>
       </View>
-
       <Modal
         animationType="fade"
         transparent={true}
@@ -87,9 +90,9 @@ const ScreenProductDetails: React.FC<ScreenProductDetailsProps> = ({ route, navi
           </TouchableOpacity>
         </View>
       </Modal>
-      <LocMap productId={product.id} /> 
+      <LocMap productId={product.id} />
     </ScrollView>
-  );
+  );  
 };
 
 
@@ -190,6 +193,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   icon: {
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  viewsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  viewCount: {
+    marginLeft: 5, 
+
   },
 });
 
