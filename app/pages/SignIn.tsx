@@ -43,7 +43,7 @@ const SignIn = () => {
 
         signIn();
         dispatch(login(user));
-        navigation.navigate("PostScreen" as never);
+        navigation.navigate("Home" as never);
       })
       .catch((error) => {
         const errorCode = error.code;

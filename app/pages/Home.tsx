@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: colors.secondary,
+    paddingBottom:7,
   },
   publisherSection: {
     marginTop: 10,
@@ -139,6 +140,7 @@ const styles = StyleSheet.create({
   publisher: {
     fontSize: 14,
     color: 'gray',
+    paddingBottom:7,
   },  
 });
 export default Home;

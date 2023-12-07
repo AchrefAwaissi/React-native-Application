@@ -54,7 +54,7 @@ const ScreenProductDetails: React.FC<ScreenProductDetailsProps> = ({ route, navi
         </TouchableOpacity>
         <View style={styles.detailsContainer}>
           <Text style={styles.title}>{product.title}</Text>
-          <Text style={styles.price}>{product.price}</Text>
+          <Text style={styles.price}>{product.price}€</Text>
           <Text style={styles.description}>{product.description}</Text>
           <View style={styles.publisherSection}>
             <Text style={styles.description}> Publié le: {product.publishedAt}</Text>
@@ -124,10 +124,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.secondary,
+    paddingBottom:7,
   },
   description: {
     fontSize: 14,
     color: 'gray',
+    paddingBottom:7,
   },
   publisherSection: {
     marginTop: 10,
@@ -166,6 +168,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flex: 1,
     marginRight: 10,
+   
   },
   messageButton: {
     backgroundColor: colors.secondary,
@@ -178,6 +181,7 @@ const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   buyButtonText: {
     color: 'white',
