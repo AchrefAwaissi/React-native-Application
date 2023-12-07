@@ -2,30 +2,52 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Image, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "@firebase/firestore";
+import { firebaseConfig } from "../config/config";
+import { getAuth, signOut } from "firebase/auth";
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const menuItems = [
     {
       title: "My Listings",
-      iconUri: require("../assets/list.png"), // Remplacez par votre icône PNG
-      targetScreen: 'MyListingScreen' // Nom de la route pour 'My Listings'
+      iconUri: require("../assets/list.png"), 
+      targetScreen: 'MyListingScreen' 
     },
     {
       title: "My Messages",
-      iconUri: require("../assets/messenger.png"), // Remplacez par votre icône PNG
-      targetScreen: 'ListMessageScreen' // Nom de la route pour 'My Listings'
+      iconUri: require("../assets/messenger.png"),
+      targetScreen: 'ListMessageScreen' 
     },
     {
       title: "Sign Out",
-      iconUri: require("../assets/log-out.png"), // Remplacez par votre icône PNG
-      // Ajoutez targetScreen si nécessaire
+      iconUri: require("../assets/log-out.png"),
+      targetScreen: 'Welcome' 
     },
   ];
 
   const handleItemPress = (item) => {
     if (item.targetScreen) {
       navigation.navigate(item.targetScreen);
+    } else if (item.title === 'Sign Out') {
+      handleSignOut();
+    }
+  };
+
+  const handleSignOut = async () => {
+    const auth = getAuth();
+
+    try {
+      signOut(auth);
+
+    } catch (error) {
+      console.error('Error signing out:', error);
     }
   };
 

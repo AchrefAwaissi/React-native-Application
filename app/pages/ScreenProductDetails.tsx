@@ -48,9 +48,11 @@ const ScreenProductDetails = ({ route }) => {
         </TouchableOpacity>
         <View style={styles.detailsContainer}>
           <Text style={styles.title}>{product.title}</Text>
+          <Text style={styles.price}>{product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>
           <View style={styles.publisherSection}>
             <Text style={styles.publisherText}>Publisher: {product.publisher}</Text>
+            <Text style={styles.description}> {product.publishedAt}</Text>
           </View>
 
           <View style={styles.buttonsContainer}>
@@ -112,10 +114,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 7,
   },
-  description: {
+  price: {
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.secondary,
+  },
+  description: {
+    fontSize: 14,
+    color: 'gray',
   },
   publisherSection: {
     marginTop: 10,

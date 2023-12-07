@@ -17,6 +17,7 @@ interface Product {
   imageUri: string;
   publisher: string;
   userId: string;
+  publishedAt: string;
 }
 
 type HomeScreenRouteProp = RouteProp<{ Home: { newProduct: Product } }, "Home">;
@@ -60,6 +61,7 @@ const Home = () => {
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.description}>{item.price}€</Text>
                 <Text style={styles.publisher}>Publisher : {item.publisher}</Text>
+                <Text style={styles.publisher}>Publié le : {item.publishedAt}</Text>
               </View>
             </View>
           </TouchableOpacity>
