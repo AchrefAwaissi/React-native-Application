@@ -22,14 +22,12 @@ const ScreenProductDetails = ({ route }) => {
     try {
       const { id, longitude, latitude, ...productWithoutLocation } = product;
 
-      // Add the product to the 'sold_products' collection
       const newSoldProductRef = await addDoc(collection(db, 'sold_products'), {
         ...productWithoutLocation,
       });
 
       console.log('Produit copié dans sold_products avec l\'ID:', newSoldProductRef.id);
 
-      // Remove the product from the 'products' collection
       await deleteDoc(doc(db, 'products', id));
       console.log('Produit supprimé de la collection products avec l\'ID:', id);
     } catch (error) {
@@ -38,7 +36,7 @@ const ScreenProductDetails = ({ route }) => {
   };
 
   const handleMessage = (product) => {
-    navigation.navigate('SendMessageScreen', { product });
+    navigation.navigate('SendMessageScreen');
     console.log('Message pour le produit :', product);
   };
 
