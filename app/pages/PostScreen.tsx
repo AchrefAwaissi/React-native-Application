@@ -5,7 +5,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import {getFirestore,collection,addDoc,doc,updateDoc} from "@firebase/firestore";
+import { getFirestore, collection, addDoc, doc, updateDoc } from "@firebase/firestore";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseConfig } from "../config/config";
 import { LatLngLiteral } from "leaflet";
@@ -22,6 +22,7 @@ const PostScreen = () => {
   const [description, setDescription] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [price, setPrice] = useState(""); // Added for price
   const [image, setImage] = useState("");
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -36,12 +37,7 @@ const PostScreen = () => {
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        console.log(
-          "Lat:",
-          location.coords.latitude,
-          "Long:",
-          location.coords.longitude
-        );
+        console.log("Lat:", location.coords.latitude, "Long:", location.coords.longitude);
 
         if (!ownPosition) {
           setOwnPosition({
@@ -92,17 +88,18 @@ const PostScreen = () => {
 
   const handlePublish = async () => {
     try {
-      if (!title || !description || !image) {
+      if (!title || !description || !image || !price) {
         console.warn("Please fill in all required fields.");
         return;
       }
 
       const currentDate = new Date();
       const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
-      
+
       const newProduct = {
         title,
         description,
+        price: price !== "" ? parseFloat(price) : null,
         latitude: latitude !== "" ? parseFloat(latitude) : null,
         longitude: longitude !== "" ? parseFloat(longitude) : null,
         userId: auth.currentUser?.uid,
@@ -111,7 +108,7 @@ const PostScreen = () => {
 
       const docRef = await addDoc(
         collection(firestore, "products"),
-        newProduct 
+        newProduct
       );
       console.log("Document added with ID: ", docRef.id);
 
@@ -122,7 +119,7 @@ const PostScreen = () => {
 
       await updateDoc(doc(firestore, "products", docRef.id), {
         imageUri: imageUrl,
-        publishedAt: newProduct.publishedAt
+        publishedAt: newProduct.publishedAt,
       });
 
       navigation.navigate("Home", { newProduct });
@@ -146,6 +143,13 @@ const PostScreen = () => {
         onChangeText={(text) => setDescription(text)}
         style={styles.input}
       />
+      <TextInput
+        placeholder="Prix"
+        value={price}
+        onChangeText={(text) => setPrice(text)}
+        keyboardType="numeric"
+        style={styles.input}
+      />
       <Button title="Choisir une image" onPress={handleChooseImage} />
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
@@ -153,7 +157,7 @@ const PostScreen = () => {
       <Button
         title="Publier"
         onPress={handlePublish}
-        disabled={!title || !description || !image}
+        disabled={!title || !description || !image || !price}
       />
     </View>
   );
@@ -182,3 +186,4 @@ const styles = StyleSheet.create({
 });
 
 export default PostScreen;
+ 
