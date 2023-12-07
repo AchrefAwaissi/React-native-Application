@@ -8,6 +8,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from '@firebase/firestore';
 import { firebaseConfig } from '../config/config';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import Icon from 'react-native-vector-icons/FontAwesome'; // Importation de FontAwesome
 
 interface User {
   id: string;
@@ -79,7 +80,6 @@ const SignUp = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>Sign Up</Text>
       <Formik
         initialValues={{ id: '', nom: '', prenom: '', email: '', password: '', address: '' }}
         validationSchema={SignUpSchema}
@@ -87,55 +87,67 @@ const SignUp = () => {
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
           <>
-            <TextInput
-              placeholder="Nom"
-              value={values.nom}
-              onChangeText={handleChange('nom')}
-              onBlur={handleBlur('nom')}
-              style={styles.input}
-            />
-            {errors.nom && touched.nom && <Text style={styles.error}>{errors.nom}</Text>}
-
-            <TextInput
-              placeholder="Prénom"
-              value={values.prenom}
-              onChangeText={handleChange('prenom')}
-              onBlur={handleBlur('prenom')}
-              style={styles.input}
-            />
+            <View style={styles.inputContainer}>
+              <Icon name="user" size={20} color="#4ecdc4" />
+              <TextInput
+                placeholder="nom"
+                onChangeText={handleChange('nom')}
+                onBlur={handleBlur('nom')}
+                value={values.nom}
+                style={styles.input}
+              />
+            </View>
+            {errors.nom && touched.nom && <Text style={styles.error}>{errors.prenom}</Text>}
+           
+            <View style={styles.inputContainer}>
+              <Icon name="user" size={20} color="#4ecdc4" />
+              <TextInput
+                placeholder="prenom"
+                onChangeText={handleChange('prenom')}
+                onBlur={handleBlur('prenom')}
+                value={values.prenom}
+                style={styles.input}
+              />
+            </View>
             {errors.prenom && touched.prenom && <Text style={styles.error}>{errors.prenom}</Text>}
-
-            <TextInput
-              placeholder="Email"
-              value={values.email}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-              style={styles.input}
-              keyboardType="email-address"
-              inputMode='email'
-              autoCapitalize="none"
-            />
+             
+           
+            <View style={styles.inputContainer}>
+              <Icon name="envelope" size={20} color="#4ecdc4" />
+              <TextInput
+                placeholder="Email"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                style={styles.input}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
             {errors.email && touched.email && <Text style={styles.error}>{errors.email}</Text>}
-
-            <TextInput
-              placeholder="Password"
-              secureTextEntry
-              value={values.password}
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-              style={styles.input}
-            />
+            <View style={styles.inputContainer}>
+              <Icon name="lock" size={20} color="#4ecdc4" />
+              <TextInput
+                placeholder="Password"
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry
+                style={styles.input}
+              />
+            </View>
             {errors.password && touched.password && <Text style={styles.error}>{errors.password}</Text>}
-
-            <TextInput
-              placeholder="Address"
-              value={values.address}
-              onChangeText={handleChange('address')}
-              onBlur={handleBlur('address')}
-              style={styles.input}
-            />
+            <View style={styles.inputContainer}>
+              <Icon name="home" size={20} color="#4ecdc4" />
+              <TextInput
+                placeholder="Address"
+                onChangeText={handleChange('address')}
+                onBlur={handleBlur('address')}
+                value={values.address}
+                style={styles.input}
+              />
+                      </View>
             {errors.address && touched.address && <Text style={styles.error}>{errors.address}</Text>}
-
             <View style={styles.buttonContainer}>
               <AppButton title="Sign Up" onPress={handleSubmit} disabled={isSubmitting} />
             </View>
@@ -154,30 +166,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
     padding: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-  },
   subtitle: {
     fontSize: 15,
     fontWeight: 'bold',
     color: 'black',
+    marginBottom: 20,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#4ecdc4',
+    borderWidth: 1,
+    borderRadius: 25,
+    width: '90%',
+    padding: 15,
+    marginBottom: 10,
+    marginVertical: 10,
   },
   input: {
-    height: 50,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 15,
-    fontSize: 16,
-    width: '100%',
+    flex: 1,
+    marginLeft: 10,
+    textAlign: 'center',
   },
   error: {
     color: 'red',
     marginBottom: 10,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   buttonContainer: {
     marginTop: 20,
