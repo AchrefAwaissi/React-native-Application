@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Alert,Image } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "@firebase/firestore";
 import { firebaseConfig } from "../config/config";
+import AppButton from '../components/AppButton';
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -38,34 +39,58 @@ const SendMessageScreen = ({ route }: { route: { params: { product: any } } }) =
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Type your message here..."
-        value={message}
-        onChangeText={setMessage}
-      />
-      <Button title="Send Message" onPress={handleSendMessage} />
+    <View style={styles.background}>
+      <View style={styles.logoContainer}>
+        <Image style={styles.logo} source={require("../assets/welcome.png")}/>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Type your message here..."
+          value={message}
+          onChangeText={setMessage}
+        />
+       <AppButton
+    title="Send Message"
+    onPress={handleSendMessage}
+  />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  inputContainer: {
+    padding: 20,
+    width: "100%",
+    alignItems: "center",
+  },
+  logo: {
+    width: 340, // Ajustez selon les besoins
+    height: 300, // Ajustez selon les besoins
+  },
+  logoContainer: {
+    position: "absolute",
+    top: 70,
+    alignItems: "center",
   },
   input: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#4ecdc4',
     borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    padding: 10,
-    width: '80%',
+    borderRadius: 25,
+    width: '90%',
+    padding: 15,
     marginBottom: 10,
+    marginVertical: 10,
   },
 });
 
 export default SendMessageScreen;
-
-
