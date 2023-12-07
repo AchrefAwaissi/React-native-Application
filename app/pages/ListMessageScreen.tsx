@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, query, where, onSnapshot } from "firebase/firestore";
+import { getFirestore, collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { firebaseConfig } from "../config/config";
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const auth = getAuth(app);
@@ -14,6 +14,8 @@ interface Message {
   expediteur: string;
   message: string;
   key: string;
+  nom: string;
+  prenom: string;
 }
 
 const ListMessageScreen: React.FC = () => {
@@ -33,13 +35,29 @@ const ListMessageScreen: React.FC = () => {
 
     const unsubscribe = onSnapshot(messagesQuery, (querySnapshot) => {
       const messagesArray: Message[] = [];
-      querySnapshot.forEach((doc) => {
-        messagesArray.push({ ...doc.data(), key: doc.id } as Message);
+      querySnapshot.forEach(async (doc) => {
+        const messageData = doc.data();
+        const senderId = messageData.senderId;
+    
+        // Fetch sender details from the "users" collection
+        const senderDoc = query(collection(firestore, "Utilisateurs"), where("id", "==", messageData.expediteur));
+        const senderData = await getDocs(senderDoc);
+    
+        senderData.forEach((userDoc) => {
+          const userData = userDoc.data();
+          messagesArray.push({
+            ...messageData,
+            key: doc.id,
+            nom: userData.nom || "",
+            prenom: userData.prenom || "",
+          } as Message);
+        });
       });
+    
       setMessages(messagesArray);
     });
 
-    return () => unsubscribe(); // Detach listener on unmount
+    return () => unsubscribe();
   }, []);
 
   const handleReply = () => {
@@ -56,7 +74,7 @@ const ListMessageScreen: React.FC = () => {
             <TouchableOpacity style={styles.replyBubble} onPress={handleReply}>
               <Text style={styles.replyText}>Répondre</Text>
             </TouchableOpacity>
-            <Text style={styles.title}>{item.expediteur}</Text>
+            <Text style={styles.title}>{`${item.nom} ${item.prenom}`}</Text>
             <Text style={styles.description}>{item.message}</Text>
           </View>
         )}

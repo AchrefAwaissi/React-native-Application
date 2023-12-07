@@ -33,8 +33,6 @@ const MyListingScreen = () => {
         console.error("Erreur lors de la récupération des produits :", error);
       });
 
-
-
       return () => unsubscribe();
     } else {
       console.log("Aucun utilisateur connecté");

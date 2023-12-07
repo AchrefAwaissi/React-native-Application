@@ -28,7 +28,7 @@ const Home = () => {
   const navigation = useNavigation();
   const { newProduct } = (route.params as { newProduct?: Product }) || {};
   const [products, setProducts] = useState<Product[]>([]);
-  const [users, setUsers] = useState<any[]>([]); // Change 'any' to the type of your user data
+  const [users, setUsers] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
