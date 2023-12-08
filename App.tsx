@@ -84,6 +84,9 @@ function AppNavigator() {
           <Stack.Screen name="MyListingScreen" component={MyListingScreen} />
           <Stack.Screen name="ListMessageScreen" component={ListMessageScreen} />
           <Stack.Screen name="SendMessageScreen" component={SendMessageScreen} />
+          <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: true, headerTitle: 'Login' }} />
+          <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: true, headerTitle: 'Register' }} />
         </>
       )}
     </Stack.Navigator>

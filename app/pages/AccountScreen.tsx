@@ -200,7 +200,11 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   buttonContainer: {
-    padding: 20,
+
+    height:100,
     width: "100%",
+    backgroundColor:"#f0f0f0",
+    justifyContent:"flex-end",
+    alignItems:"flex-end"
   },
 });

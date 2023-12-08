@@ -26,8 +26,8 @@ const ProfileScreen = () => {
       targetScreen: 'ListMessageScreen' 
     },
     {
-      title: "Sign Out",
-      iconUri: require("../assets/log-out.png"),
+      title: "My Purchase",
+      iconUri: require("../assets/button.png"),
       targetScreen: 'Welcome' 
     },
   ];
@@ -98,10 +98,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   icon: {
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     borderRadius: 20,
     marginRight: 15,
+    objectFit: "cover"
   },
   boxText: {
     fontWeight: 'bold',
