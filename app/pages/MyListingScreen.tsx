@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 import colors from '../config/colors';
 import { initializeApp } from 'firebase/app';
@@ -13,6 +13,23 @@ const auth = getAuth(app);
 
 const MyListingScreen = () => {
  const [products, setProducts] = useState([]);
+
+ const confirmDelete = (productId) => {
+    Alert.alert(
+        "Confirmation",
+        "Vous êtes sûr de vouloir supprimer ce produit ?",
+        [
+            {
+                text: "Annuler",
+                style: "cancel",
+            },
+            {
+                text: "Supprimer",
+                onPress: () => deleteProduct(productId),
+            },
+        ]
+    );
+ };
 
  useEffect(() => {
     if (auth.currentUser) {
@@ -51,7 +68,7 @@ const MyListingScreen = () => {
     <View style={styles.card}>
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.description}>{item.price}€</Text>
-      <TouchableOpacity onPress={() => deleteProduct(item.id)}>
+      <TouchableOpacity onPress={() => confirmDelete(item.id)}>
         <AntDesign name="delete" size={24} color={colors.primary} />
       </TouchableOpacity>
     </View>

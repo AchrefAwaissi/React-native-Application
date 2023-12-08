@@ -67,10 +67,7 @@ export default function AccountScreen() {
   
 
   const handleSignOut = async () => {
-    const auth = getAuth();
-
     try {
-      signOut(auth);
       navigation.navigate("SignOut")
     } catch (error) {
       console.error('Error signing out:', error);
