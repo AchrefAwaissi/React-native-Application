@@ -19,7 +19,7 @@ Ce projet consiste à développer une application mobile e-commerce qui localise
 
 ## Support de la soutenance 
 
-- Diaporama(https://www.canva.com/design/DAF2UhWY7is/p-CzRjCcFNk2vSsXgPn30A/view?utm_content=DAF2UhWY7is&utm_campaign=designshare&utm_medium=link&utm_source=editor)
+- [Diaporama](https://www.canva.com/design/DAF2UhWY7is/p-CzRjCcFNk2vSsXgPn30A/view?utm_content=DAF2UhWY7is&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 ## Installation
 
 Pour installer le projet, vous devez suivre les étapes suivantes :
