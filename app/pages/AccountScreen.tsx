@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged, signOut, updateProfile } from 'firebase/au
 import { firebaseConfig } from '../config/config';
 import ProfileScreen from './ProfileScreen';
 import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { useNavigation } from '@react-navigation/native';
 
 
 interface UserData {
@@ -23,6 +24,7 @@ const app = initializeApp(firebaseConfig);
     const storage = getStorage(app);
 
 export default function AccountScreen() {
+  const navigation = useNavigation();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [image, setImage] = useState<string | null>(null);
 
@@ -67,7 +69,7 @@ export default function AccountScreen() {
 
     try {
       signOut(auth);
-
+      navigation.navigate("Welcome")
     } catch (error) {
       console.error('Error signing out:', error);
     }
