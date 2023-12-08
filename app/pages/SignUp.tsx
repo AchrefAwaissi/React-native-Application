@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
@@ -32,7 +32,8 @@ const SignUpSchema = Yup.object().shape({
     .matches(/[a-z]/, 'Password must contain at least one lowercase letter.')
     .matches(/[0-9]/, 'Password must contain at least one number.')
     .matches(/[@$!%*#?&]/, 'Password must contain at least one special character.'),
-  address: Yup.string().required('Required'),
+  address: Yup.string().required('Required')
+  .min(8, 'Adress is too short - should be 8 chars minimum.'),
 });
 
 const SignUp = () => {
@@ -87,7 +88,7 @@ const SignUp = () => {
             <View style={styles.inputContainer}>
               <Icon name="user" size={20} color={colors.secondary} />
               <TextInput
-                placeholder="nom"
+                placeholder="Nom"
                 onChangeText={handleChange('nom')}
                 onBlur={handleBlur('nom')}
                 value={values.nom}
@@ -99,7 +100,7 @@ const SignUp = () => {
             <View style={styles.inputContainer}>
               <Icon name="user" size={20} color={colors.secondary} />
               <TextInput
-                placeholder="prenom"
+                placeholder="Prenom"
                 onChangeText={handleChange('prenom')}
                 onBlur={handleBlur('prenom')}
                 value={values.prenom}

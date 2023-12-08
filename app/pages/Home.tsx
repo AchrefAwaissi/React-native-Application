@@ -15,10 +15,8 @@ interface Product {
   price: string;
   description: string;
   imageUri: string;
-  publisher: string;
   userId: string;
   publishedAt: string;
-  userName?: string; 
 }
 
 type HomeScreenRouteProp = RouteProp<{ Home: { newProduct: Product } }, "Home">;
@@ -39,10 +37,8 @@ const Home = () => {
         price: doc.data().price,
         description: doc.data().description,
         imageUri: doc.data().imageUri,
-        publisher: doc.data().publisher,
         userId: doc.data().userId,
         publishedAt: doc.data().publishedAt,
-        userName: doc.data().userName,
       }));
 
       setProducts(productsData);
