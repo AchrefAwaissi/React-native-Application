@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Alert,Image } from 'react-native';
+import { View, TextInput, StyleSheet, Alert,Image, KeyboardAvoidingView } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "@firebase/firestore";
@@ -38,6 +38,10 @@ const SendMessageScreen = ({ route }: { route: { params: { product: any } } }) =
   };
 
   return (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    style={styles.background}
+  >
     <View style={styles.background}>
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require("../assets/welcome.png")}/>
@@ -55,6 +59,7 @@ const SendMessageScreen = ({ route }: { route: { params: { product: any } } }) =
   />
       </View>
     </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -64,6 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "white",
+    width: "100%",
   },
   inputContainer: {
     padding: 20,
@@ -80,7 +86,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    flexDirection: 'row',
     alignItems: 'center',
     borderColor: '#4ecdc4',
     borderWidth: 1,

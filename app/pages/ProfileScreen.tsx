@@ -74,7 +74,7 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#f8f4f4',
+    backgroundColor: '#f0f0f0',
   },
   container: {
     marginVertical: 20,

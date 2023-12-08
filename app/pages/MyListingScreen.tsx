@@ -45,10 +45,12 @@ const MyListingScreen = () => {
     }
  };
 
- const renderItem = ({ item }: { item: { id: string, title: string, description: string } }) => (
+ const renderItem = ({ item }: { item: {
+   price: string; id: string, title: string, description: string 
+} }) => (
     <View style={styles.card}>
       <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
+      <Text style={styles.description}>{item.price}€</Text>
       <TouchableOpacity onPress={() => deleteProduct(item.id)}>
         <AntDesign name="delete" size={24} color={colors.primary} />
       </TouchableOpacity>
