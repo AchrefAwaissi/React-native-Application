@@ -17,6 +17,9 @@ Ce projet consiste à développer une application mobile e-commerce qui localise
 - Firebase Authentification : un standard pour l'authentification des utilisateurs et la sécurisation des routes protégées.
 - Paypal : un service de paiement tiers pour permettre aux utilisateurs de réaliser leurs achats en toute sécurité.
 
+## Support de la soutenance 
+
+- Diaporama(https://www.canva.com/design/DAF2UhWY7is/p-CzRjCcFNk2vSsXgPn30A/view?utm_content=DAF2UhWY7is&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 ## Installation
 
 Pour installer le projet, vous devez suivre les étapes suivantes :
