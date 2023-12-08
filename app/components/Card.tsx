@@ -7,16 +7,19 @@ import colors from "../config/colors";
 interface CardProps {
   title: string;
   subTitle: string;
+  price: number;
+  description: string;
   image: ImageSourcePropType;
 }
 
-function Card({ title, subTitle, image }: CardProps) {
+function Card({ title, subTitle, image, price, description }: CardProps) {
   return (
     <View style={styles.card}>
       <Image style={styles.image} source={image} />
       <View style={styles.detailsContainer}>
         <AppText style={styles.title}>{title}</AppText>
-        <AppText style={styles.subTitle}>{subTitle}</AppText>
+        <AppText style={styles.price}>{price}</AppText>
+        <AppText style={styles.description}>{description}</AppText>
       </View>
     </View>
   );
@@ -42,6 +45,9 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 7,
+  },
+  price: {},
+  description: {
   },
 });
 
