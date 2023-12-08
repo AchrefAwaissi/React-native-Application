@@ -35,7 +35,7 @@ const OfflineNotice = () => {
 
 const styles = StyleSheet.create({
   safeArea: {
-    backgroundColor: '#b52424', // optional, to match the offline container's background
+    backgroundColor: '#b52424',
   },
   offlineContainer: {
     backgroundColor: '#b52424',

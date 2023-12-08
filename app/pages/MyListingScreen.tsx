@@ -7,7 +7,6 @@ import { getFirestore, collection, query, onSnapshot, where, doc, deleteDoc } fr
 import { getAuth } from 'firebase/auth';
 import { firebaseConfig } from '../config/config';
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -16,10 +15,8 @@ const MyListingScreen = () => {
  const [products, setProducts] = useState([]);
 
  useEffect(() => {
-    // Vérifiez si l'utilisateur est connecté
     if (auth.currentUser) {
       const userId = auth.currentUser.uid;
-      console.log("UserID:", userId);
 
       const q = query(collection(db, "products"), where("userId", "==", userId));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -28,7 +25,6 @@ const MyListingScreen = () => {
           ...doc.data()
         }));
         setProducts(productList);
-        console.log("Produits:", productList);
       }, (error) => {
         console.error("Erreur lors de la récupération des produits :", error);
       });
@@ -40,12 +36,9 @@ const MyListingScreen = () => {
  }, []);
 
  const deleteProduct = async (productId: string) => {
-    // Supprimer de Firebase
     try {
       await deleteDoc(doc(db, "products", productId));
-      console.log("Produit supprimé:", productId);
 
-      // Mettre à jour l'état local
       setProducts(currentProducts => currentProducts.filter(product => product.id !== productId));
     } catch (error) {
       console.error("Erreur lors de la suppression du produit:", error);

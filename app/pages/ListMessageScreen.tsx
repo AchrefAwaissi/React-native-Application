@@ -39,7 +39,6 @@ const ListMessageScreen: React.FC = () => {
         const messageData = doc.data();
         const senderId = messageData.senderId;
     
-        // Fetch sender details from the "users" collection
         const senderDoc = query(collection(firestore, "Utilisateurs"), where("id", "==", messageData.expediteur));
         const senderData = await getDocs(senderDoc);
     

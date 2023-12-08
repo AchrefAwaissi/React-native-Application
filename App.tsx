@@ -106,7 +106,7 @@ const App = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: 'white', // Changez ceci selon la couleur de fond souhaitée pour votre application
+    backgroundColor: 'white', 
   }
 });
 export default App;

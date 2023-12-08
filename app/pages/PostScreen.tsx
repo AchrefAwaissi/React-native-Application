@@ -10,7 +10,7 @@ import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { firebaseConfig } from "../config/config";
 import { LatLngLiteral } from "leaflet";
 import * as Location from "expo-location";
-import Icon from 'react-native-vector-icons/FontAwesome'; // Importing FontAwesome
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -23,7 +23,7 @@ const PostScreen = () => {
   const [description, setDescription] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [price, setPrice] = useState(""); // Added for price
+  const [price, setPrice] = useState(""); 
   const [image, setImage] = useState("");
   const [hasPermission, setHasPermission] = useState(null);
   const [ownPosition, setOwnPosition] = useState<null | LatLngLiteral>(null);
@@ -37,7 +37,7 @@ const PostScreen = () => {
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        console.log("Lat:", location.coords.latitude, "Long:", location.coords.longitude);
+       
 
         if (!ownPosition) {
           setOwnPosition((prevState) => ({
@@ -111,7 +111,7 @@ const PostScreen = () => {
         collection(firestore, "products"),
         newProduct
       );
-      console.log("Document added with ID: ", docRef.id);
+      
 
       const imageRef = ref(storage, `product_images/${docRef.id}`);
       await uploadBytes(imageRef, await fetch(image).then((res) => res.blob()));
@@ -131,7 +131,7 @@ const PostScreen = () => {
 
   return (
     <View style={styles.container}>
-    <Text style={styles.heading}>Poster une annonce</Text>
+    <Text style={styles.heading}>Publier une annonce</Text>
 
     <View style={styles.inputContainer}>
       <Icon name="pencil" size={20} color="#4ecdc4" />
@@ -161,12 +161,12 @@ const PostScreen = () => {
         style={styles.input}
       />
     </View>
-    <Button title="Choisir une image" onPress={handleChooseImage} />
+    <Button color='#fc5c65' title="Choisir une image" onPress={handleChooseImage} />
 <View style={styles.imagePlaceholder}>
   {image ? (
     <Image source={{ uri: image }} style={styles.image} />
   ) : (
-    <Text style={styles.buttonText}>Image non sélectionnée</Text> // Vous pouvez remplacer ce texte par autre chose si vous le souhaitez
+    <Text style={styles.buttonText}>Image non sélectionnée</Text>  
   )}
 </View>
     
@@ -245,7 +245,7 @@ imagePlaceholder: {
   shadowOffset: { width: 0, height: 7 },
   shadowOpacity: 0.2,
   shadowRadius: 29,
-  elevation: 5, // pour Android // Couleur de fond pour le placeholder
+  elevation: 5, 
 },
 image: {
   width: 200,

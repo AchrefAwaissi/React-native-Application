@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mapContainer: {
-    height: 200, // Set a fixed height for the map container
+    height: 200, 
   },
   map: {
     flex: 1,

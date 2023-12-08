@@ -9,7 +9,7 @@ import { getFirestore } from "@firebase/firestore";
 import { firebaseConfig } from "../config/config";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import AppButton from "../components/AppButton";
-import Icon from 'react-native-vector-icons/FontAwesome'; // Importation de FontAwesome
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 import { useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
@@ -34,12 +34,10 @@ const SignIn = () => {
     values: { email: string; password: string },
     { setSubmitting }: any
   ) => {
-    console.log("Credentials:", values);
     setSubmitting(false);
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log("User signed in: ", user);
 
         signIn();
         dispatch(login(user));

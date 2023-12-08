@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert,Image } from 'react-native';
+import { View, TextInput, StyleSheet, Alert,Image } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "@firebase/firestore";
@@ -23,7 +23,6 @@ const SendMessageScreen = ({ route }: { route: { params: { product: any } } }) =
     }
 
     try {
-      console.log('receiverId:', receiverId);
       const messageDocRef = await addDoc(collection(firestore, 'messages'), {
         destinataire: receiverId,
         message,
@@ -72,8 +71,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: 340, // Ajustez selon les besoins
-    height: 300, // Ajustez selon les besoins
+    width: 340, 
+    height: 300, 
   },
   logoContainer: {
     position: "absolute",

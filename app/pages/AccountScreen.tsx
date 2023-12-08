@@ -42,20 +42,19 @@ export default function AccountScreen() {
           if (!querySnapshot.empty) {
             const data = querySnapshot.docs[0].data() as UserData;
             
-            // Update user data with the new photo URL
             if (user.photoURL !== data.photoURL) {
               await updateProfile(user, { photoURL: data.photoURL });
             }
   
             setUserData(data);
-            setImage(user.photoURL); // Set the profile picture URL
+            setImage(user.photoURL); 
           }
         } catch (error) {
           console.error('Error fetching data from Firebase:', error);
         }
       } else {
         setUserData(null);
-        setImage(null); // Clear the profile picture URL when user logs out
+        setImage(null); 
       }
     });
   
@@ -90,10 +89,10 @@ export default function AccountScreen() {
         const response = await fetch(selectedImage);
         const blob = await response.blob();
   
-        // Upload image to Firebase Storage
+      
         await uploadBytes(storageRef, blob);
   
-        // Get download URL and update user profile in Firestore
+     
         const downloadURL = await getDownloadURL(storageRef);
         updateProfile(user, { photoURL: downloadURL });
   
@@ -146,15 +145,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingTop: 30,
-    backgroundColor: '#f0f0f0', // Arrière-plan plus doux
+    backgroundColor: '#f0f0f0',
   },
   profileContainer: {
     alignItems: 'center',
     marginBottom: 20,
-    backgroundColor: '#ffffff', // Fond blanc pour faire ressortir le contenu
+    backgroundColor: '#ffffff', 
     borderRadius: 10,
     padding: 10,
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Ombre portée pour la profondeur
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
   },
   profileImageContainer: {
     borderRadius: 100,
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
     height: 120,
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Ombre légère pour l'image
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', 
   },
   profileImage: {
     width: '100%',
@@ -179,8 +178,8 @@ const styles = StyleSheet.create({
   userInfo: {
     fontSize: 16,
     marginTop: 5,
-    fontWeight: '500', // Texte légèrement en gras
-    color: '#333', // Couleur du texte plus
+    fontWeight: '500',
+    color: '#333', 
   },  userInfoRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -190,9 +189,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginRight: 5,
-  },
-  userInfo: {
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });

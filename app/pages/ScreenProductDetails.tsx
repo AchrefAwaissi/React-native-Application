@@ -23,6 +23,7 @@ const ScreenProductDetails: React.FC<ScreenProductDetailsProps> = ({ route, navi
   const [modalVisible, setModalVisible] = useState(false);
 
   const handlePurchase = async (product: any) => {
+    // logique achat d'un produit
     console.log('Achat du produit :', product);
 
     try {
@@ -32,10 +33,7 @@ const ScreenProductDetails: React.FC<ScreenProductDetailsProps> = ({ route, navi
         ...productWithoutLocation,
       });
 
-      console.log('Produit copié dans sold_products avec l\'ID:', newSoldProductRef.id);
-
       await deleteDoc(doc(db, 'products', id));
-      console.log('Produit supprimé de la collection products avec l\'ID:', id);
     } catch (error) {
       console.error('Erreur lors de la copie du produit dans sold_products :', error);
     }
@@ -43,7 +41,6 @@ const ScreenProductDetails: React.FC<ScreenProductDetailsProps> = ({ route, navi
 
   const handleMessage = (product: any) => {
     navigation.navigate('SendMessageScreen', { product });
-    console.log('Message pour le produit :', product);
   };
 
   return (

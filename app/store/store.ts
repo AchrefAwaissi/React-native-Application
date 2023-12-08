@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from '../features/userSlice'; // ajustez le chemin selon votre structure de dossier
+import userReducer from '../features/userSlice';
 
 export const store = configureStore({
   reducer: {

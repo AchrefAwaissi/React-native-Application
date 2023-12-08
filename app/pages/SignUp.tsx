@@ -8,7 +8,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from '@firebase/firestore';
 import { firebaseConfig } from '../config/config';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import Icon from 'react-native-vector-icons/FontAwesome'; // Importation de FontAwesome
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface User {
   id: string;
@@ -46,7 +46,6 @@ const SignUp = () => {
     createUserWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('User signed up: ', user);
         Alert.alert('Success', 'Utilisateur créé avec succès');
         navigation.navigate('SignIn' as never);
         
@@ -64,15 +63,13 @@ const SignUp = () => {
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log('Error adding doc: ', errorCode, errorMessage);
-            Alert.alert('Error', errorMessage);
+            console.log('Error adding document: ', errorCode, errorMessage);
           });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('Error signing up: ', errorCode, errorMessage);
-        Alert.alert('Error', errorMessage);
       });
 
    

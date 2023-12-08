@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageBackground, StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import AppButton from "../components/AppButton";
 import SignIn from "../pages/SignIn";  
 import SignUp from "../pages/SignUp";  
@@ -12,30 +12,23 @@ interface WelcomeScreenProps {
 function WelcomeScreen(props: WelcomeScreenProps) {
   const navigation = useNavigation();
   const handleLoginPress = () => {
-    // Logique pour gérer le clic sur le bouton de connexion
-    console.log("Login button pressed");
-    navigation.navigate('SignIn');
+    navigation.navigate('SignIn' as never);
   };
 
   const handleRegisterPress = () => {
-    // Logique pour gérer le clic sur le bouton d'inscription
-    console.log("Register button pressed");
-    navigation.navigate('SignUp');
+    navigation.navigate('SignUp' as never);
   };
 
   return (
     <View  style={styles.background}>
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require("../assets/welcome.png")}/>
-        {/* <Text style={styles.tagline}>Sell What You Don't Need</Text> */}
       </View>
       <View style={styles.buttonsContainer}>
-        {/* Rendre le composant SignIn sur le clic du bouton de connexion */}
         <AppButton title="Login" onPress={handleLoginPress}>
           <SignIn onPress={handleLoginPress} />
         </AppButton>
 
-        {/* Rendre le composant SignUp sur le clic du bouton d'inscription */}
         <AppButton title="Register" color="secondary" onPress={handleRegisterPress}>
           <SignUp onPress={handleRegisterPress} />
         </AppButton>
