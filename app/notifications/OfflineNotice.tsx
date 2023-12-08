@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import colors from '../config/colors';
 
 const OfflineNotice = () => {
   const [isConnected, setIsConnected] = React.useState(null);
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   offlineText: {
-    color: '#fff',
+    color: colors.white,
   },
 });
 

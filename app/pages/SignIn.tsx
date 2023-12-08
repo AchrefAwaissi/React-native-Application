@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
+import colors from "../config/colors";
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -70,7 +71,7 @@ const SignIn = () => {
         }) => (
           <>
            <View style={styles.inputContainer}>
-              <Icon name="envelope" size={20} color="#4ecdc4" />
+              <Icon name="envelope" size={20} color={colors.secondary} />
               <TextInput
                 placeholder="Email"
                 onChangeText={handleChange("email")}
@@ -86,7 +87,7 @@ const SignIn = () => {
               <Text style={styles.error}>{errors.email}</Text>
             )}
             <View style={styles.inputContainer}>
-              <Icon name="lock" size={20} color="#4ecdc4" />
+              <Icon name="lock" size={20} color={colors.secondary} />
               <TextInput
                 placeholder="Password"
                 onChangeText={handleChange("password")}
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#4ecdc4',
+    borderColor: colors.secondary,
     borderWidth: 1,
     borderRadius: 25,
     width: '90%',

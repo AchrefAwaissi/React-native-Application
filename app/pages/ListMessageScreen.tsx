@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { firebaseConfig } from "../config/config";
+import colors from '../config/colors';
 
 
 const app = initializeApp(firebaseConfig);
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   replyBubble: {
-    backgroundColor: '#fc5c65',
+    backgroundColor: colors.primary,
     position: 'absolute',
     top: 0,
     right: 0, 

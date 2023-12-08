@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "@firebase/firestore";
 import { firebaseConfig } from "../config/config";
 import AppButton from '../components/AppButton';
+import colors from '../config/colors';
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
   },
   input: {
     alignItems: 'center',
-    borderColor: '#4ecdc4',
+    borderColor: colors.secondary,
     borderWidth: 1,
     borderRadius: 25,
     width: '90%',

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { firebaseConfig } from "../config/config";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 
 const app = initializeApp(firebaseConfig);
@@ -35,21 +35,10 @@ const ProfileScreen = () => {
   const handleItemPress = (item: { title: any; iconUri?: any; targetScreen: any; }) => {
     if (item.targetScreen) {
       navigation.navigate(item.targetScreen as never);
-    } else if (item.title === 'Sign Out') {
-      handleSignOut();
-    }
+    } 
   };
 
-  const handleSignOut = async () => {
-    const auth = getAuth();
-
-    try {
-      signOut(auth);
-
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
+  
 
   return (
     <View style={styles.screen}>

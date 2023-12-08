@@ -11,6 +11,7 @@ import { firebaseConfig } from "../config/config";
 import { LatLngLiteral } from "leaflet";
 import * as Location from "expo-location";
 import Icon from 'react-native-vector-icons/FontAwesome'; 
+import colors from "../config/colors";
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -134,7 +135,7 @@ const PostScreen = () => {
     <Text style={styles.heading}>Publier une annonce</Text>
 
     <View style={styles.inputContainer}>
-      <Icon name="pencil" size={20} color="#4ecdc4" />
+      <Icon name="pencil" size={20} color={colors.secondary} />
       <TextInput
         placeholder="Titre"
         value={title}
@@ -143,7 +144,7 @@ const PostScreen = () => {
       />
     </View>
     <View style={styles.inputContainer}>
-      <Icon name="money" size={20} color="#4ecdc4" />
+      <Icon name="money" size={20} color={colors.secondary} />
       <TextInput
         placeholder="Prix"
         value={price}
@@ -153,7 +154,7 @@ const PostScreen = () => {
       />
     </View>
     <View style={styles.inputContainer}>
-      <Icon name="align-left" size={20} color="#4ecdc4" />
+      <Icon name="align-left" size={20} color={colors.secondary} />
       <TextInput
         placeholder="Description"
         value={description}
@@ -161,7 +162,7 @@ const PostScreen = () => {
         style={styles.input}
       />
     </View>
-    <Button color='#fc5c65' title="Choisir une image" onPress={handleChooseImage} />
+    <Button color={colors.primary} title="Choisir une image" onPress={handleChooseImage} />
 <View style={styles.imagePlaceholder}>
   {image ? (
     <Image source={{ uri: image }} style={styles.image} />
@@ -188,18 +189,18 @@ container: {
   flex: 1,
   alignItems: "center",
   justifyContent: "center",
-  backgroundColor: "#fff",
+  backgroundColor: colors.white,
 },
 heading: {
   fontSize: 24,
   fontWeight: "bold",
   marginBottom: 20,
-  color:"#fc5c65"
+  color: colors.primary,
 },
 inputContainer: {
   flexDirection: 'row',
   alignItems: 'center',
-  borderColor: '#4ecdc4',
+  borderColor: colors.secondary,
   borderWidth: 1,
   borderRadius: 25,
   width: '90%',
@@ -223,7 +224,7 @@ button: {
   padding: 15,
   marginBottom: 10,
   marginVertical: 10,
-  backgroundColor: '#fc5c65', 
+  backgroundColor: colors.primary, 
 },
 buttonText: {
   color: 'white', 

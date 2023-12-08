@@ -9,6 +9,7 @@ import ProfileScreen from './ProfileScreen';
 import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import { useNavigation } from '@react-navigation/native';
 import AppButton from '../components/AppButton';
+import colors from '../config/colors';
 
 
 interface UserData {
@@ -70,7 +71,7 @@ export default function AccountScreen() {
 
     try {
       signOut(auth);
-      navigation.navigate("Welcome")
+      navigation.navigate("SignOut")
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -138,12 +139,12 @@ export default function AccountScreen() {
       </View>
     )}
  <ProfileScreen></ProfileScreen>
- <View style={styles.buttonContainer}>
-              <AppButton
-                title="Sign Out"
-                onPress={handleSignOut}
-              />
-            </View>
+  <View style={styles.buttonContainer}>
+                <AppButton
+                  title="Sign Out"
+                  onPress={handleSignOut}
+                />
+  </View>
  {/* <AppButton title="" onPress={handleSignOut} /> */}
   </View>
  );
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
   profileImageContainer: {
     borderRadius: 100,
     overflow: 'hidden',
-    borderColor: '#4ecdc4',
+    borderColor: colors.secondary,
     borderWidth: 4,
     width: 120,
     height: 120,

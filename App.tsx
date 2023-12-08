@@ -22,6 +22,7 @@ import { StyleSheet } from 'react-native';
 import colors from './app/config/colors';
 import { Image } from 'react-native';
 import MyPurchaseScreen from './app/pages/MyPurchaseScreen';
+import SignOut from './app/pages/SignOut';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,7 +42,7 @@ function ProfileTabs() {
         }}
       />
             <Tab.Screen
-        name="PostScreen"
+        name="Annonce"
         component={PostScreen}
         options={{
           tabBarIcon: ({ focused, size }) => (
@@ -86,9 +87,7 @@ function AppNavigator() {
           <Stack.Screen name="MyPurchaseScreen" component={MyPurchaseScreen} />
           <Stack.Screen name="ListMessageScreen" component={ListMessageScreen} />
           <Stack.Screen name="SendMessageScreen" component={SendMessageScreen} />
-          <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: true, headerTitle: 'Login' }} />
-          <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: true, headerTitle: 'Register' }} />
+          <Stack.Screen name="SignOut" component={SignOut} />
         </>
       )}
     </Stack.Navigator>

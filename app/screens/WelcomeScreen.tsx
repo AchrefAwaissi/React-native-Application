@@ -4,6 +4,7 @@ import AppButton from "../components/AppButton";
 import SignIn from "../pages/SignIn";  
 import SignUp from "../pages/SignUp";  
 import {  useNavigation } from "@react-navigation/native";
+import colors from "../config/colors";
 
 interface WelcomeScreenProps {
 
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
   },
   buttonsContainer: {
     padding: 20,

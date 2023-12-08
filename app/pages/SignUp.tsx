@@ -9,6 +9,7 @@ import { getFirestore, collection, addDoc } from '@firebase/firestore';
 import { firebaseConfig } from '../config/config';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import colors from '../config/colors';
 
 interface User {
   id: string;
@@ -46,7 +47,6 @@ const SignUp = () => {
     createUserWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        Alert.alert('Success', 'Utilisateur créé avec succès');
         navigation.navigate('SignIn' as never);
         
         addDoc(collection(db, 'Utilisateurs'), {
@@ -85,7 +85,7 @@ const SignUp = () => {
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
           <>
             <View style={styles.inputContainer}>
-              <Icon name="user" size={20} color="#4ecdc4" />
+              <Icon name="user" size={20} color={colors.secondary} />
               <TextInput
                 placeholder="nom"
                 onChangeText={handleChange('nom')}
@@ -97,7 +97,7 @@ const SignUp = () => {
             {errors.nom && touched.nom && <Text style={styles.error}>{errors.prenom}</Text>}
            
             <View style={styles.inputContainer}>
-              <Icon name="user" size={20} color="#4ecdc4" />
+              <Icon name="user" size={20} color={colors.secondary} />
               <TextInput
                 placeholder="prenom"
                 onChangeText={handleChange('prenom')}
@@ -110,7 +110,7 @@ const SignUp = () => {
              
            
             <View style={styles.inputContainer}>
-              <Icon name="envelope" size={20} color="#4ecdc4" />
+              <Icon name="envelope" size={20} color={colors.secondary} />
               <TextInput
                 placeholder="Email"
                 onChangeText={handleChange('email')}
@@ -123,7 +123,7 @@ const SignUp = () => {
             </View>
             {errors.email && touched.email && <Text style={styles.error}>{errors.email}</Text>}
             <View style={styles.inputContainer}>
-              <Icon name="lock" size={20} color="#4ecdc4" />
+              <Icon name="lock" size={20} color={colors.secondary} />
               <TextInput
                 placeholder="Password"
                 onChangeText={handleChange('password')}
@@ -135,7 +135,7 @@ const SignUp = () => {
             </View>
             {errors.password && touched.password && <Text style={styles.error}>{errors.password}</Text>}
             <View style={styles.inputContainer}>
-              <Icon name="home" size={20} color="#4ecdc4" />
+              <Icon name="home" size={20} color={colors.secondary} />
               <TextInput
                 placeholder="Address"
                 onChangeText={handleChange('address')}
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#4ecdc4',
+    borderColor: colors.secondary,
     borderWidth: 1,
     borderRadius: 25,
     width: '90%',
