@@ -21,6 +21,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
 import colors from './app/config/colors';
 import { Image } from 'react-native';
+import MyPurchaseScreen from './app/pages/MyPurchaseScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,6 +83,7 @@ function AppNavigator() {
           <Stack.Screen name="Back" component={ProfileTabs} options={{ headerShown: false }} />
           <Stack.Screen name="ScreenProductDetails" component={ScreenProductDetails} />
           <Stack.Screen name="MyListingScreen" component={MyListingScreen} />
+          <Stack.Screen name="MyPurchaseScreen" component={MyPurchaseScreen} />
           <Stack.Screen name="ListMessageScreen" component={ListMessageScreen} />
           <Stack.Screen name="SendMessageScreen" component={SendMessageScreen} />
           <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />

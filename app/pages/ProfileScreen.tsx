@@ -28,7 +28,7 @@ const ProfileScreen = () => {
     {
       title: "My Purchase",
       iconUri: require("../assets/button.png"),
-      targetScreen: 'Welcome' 
+      targetScreen: 'MyPurchaseScreen' 
     },
   ];
 
