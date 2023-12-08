@@ -8,6 +8,7 @@ import { firebaseConfig } from '../config/config';
 import ProfileScreen from './ProfileScreen';
 import { getStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import { useNavigation } from '@react-navigation/native';
+import AppButton from '../components/AppButton';
 
 
 interface UserData {
@@ -137,7 +138,13 @@ export default function AccountScreen() {
       </View>
     )}
  <ProfileScreen></ProfileScreen>
- <Button title="Sign Out" onPress={handleSignOut} />
+ <View style={styles.buttonContainer}>
+              <AppButton
+                title="Sign Out"
+                onPress={handleSignOut}
+              />
+            </View>
+ {/* <AppButton title="" onPress={handleSignOut} /> */}
   </View>
  );
 };
@@ -191,5 +198,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginRight: 5,
+  },
+  buttonContainer: {
+    padding: 20,
+    width: "100%",
   },
 });
