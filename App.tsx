@@ -16,6 +16,9 @@ import { Provider } from 'react-redux';
 import { store } from './app/store/store';
 import ListMessageScreen from './app/pages/ListMessageScreen';
 import SendMessageScreen from './app/pages/SendMessageScreen';
+import OfflineNotice from './app/notifications/OfflineNotice';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
  
@@ -89,13 +92,21 @@ function AppNavigator() {
 const App = () => {
   return (
     <Provider store={store}>
-    <AuthProvider>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
-    </AuthProvider>
-     </Provider>
+    <SafeAreaView style={styles.safeArea}>
+      <AuthProvider>
+        <OfflineNotice />
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </AuthProvider>
+    </SafeAreaView>
+  </Provider>
   );
 };
- 
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: 'white', // Changez ceci selon la couleur de fond souhaitée pour votre application
+  }
+});
 export default App;
